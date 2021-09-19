@@ -45,9 +45,18 @@
       "airbnb",
       "prettier"
     ],
+    "ignorePatterns": [
+      "serviceWorkerRegistration.js",
+      "service-worker.js",
+      "reportWebVitals.js"
+    ],
     "plugins": [
       "prettier"
     ],
+    "rules": {
+      "react/jsx-filename-extension": "off",
+      "react-hooks/exhaustive-deps": "off"
+    },
     "settings": {
       "import/resolver": {
         "node": {

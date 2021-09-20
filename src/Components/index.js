@@ -1,10 +1,4 @@
-import React from 'react';
+import * as Auth from './Auth';
 
-const Home = () => (
-  <div>
-    <h1 className='text-primary'>Plant It!</h1>
-    Getting started
-  </div>
-);
-
-export default Home;
+export { Auth };
+export { default as Home } from './Home';

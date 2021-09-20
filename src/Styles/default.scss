@@ -1,0 +1,21 @@
+input,
+select,
+textarea,
+.input-group-addon,
+.custom-input {
+  border: none !important;
+  font-weight: 300 !important;
+  border-radius: 0.25rem !important;
+  background-color: rgba(0, 0, 0, 0.05) !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  box-shadow: none !important;
+  border-width: 1px;
+}
+
+::placeholder {
+  font-size: small;
+}

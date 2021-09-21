@@ -6,10 +6,10 @@ import ThirdParty from '../ThirdParty';
 
 const {
   formId,
-  fields: { contact, password },
+  fields: { contact, password, fullname, agree },
 } = model;
 
-const SignIn = () => {
+const SignUp = () => {
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,11 +19,15 @@ const SignIn = () => {
     setDetails((d) => ({ ...d, [e.target.name]: e.target.value }));
   };
 
+  const onCheckChange = (e) => {
+    setDetails((d) => ({ ...d, [e.target.name]: !details[agree.name] }));
+  };
+
   const hasErrors = (key) => key in errors;
 
-  const signin = async () => {
+  const register = async () => {
     try {
-      window.console.log('signed in');
+      window.console.log('Registered');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));
     }
@@ -35,7 +39,7 @@ const SignIn = () => {
     try {
       await validation.validate(details, { abortEarly: false });
 
-      await signin();
+      await register();
 
       setErrors({});
       setIsSubmitting(false);
@@ -63,21 +67,18 @@ const SignIn = () => {
           className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start'
           style={{ padding: '0 4rem' }}
         >
-          <h1>You’re back!</h1>
-          <h1>We’re glad.</h1>
-          <div className='mt-2 fw-light'>You have some stuff to do here, right?</div>
+          <h1>Your first time huh?</h1>
+          <h1>Let’s get you started.</h1>
+          <div className='mt-2 fw-light'>
+            This is to help us stay in touch with you and give you a place on our table.
+          </div>
         </div>
 
         <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>
           <div className='row align-items-center justify-content-center w-100'>
             <div className='col-12 col-sm-8 col-md-6 d-flex flex-column justify-content-center align-items-center'>
-              <span role='img' aria-label='waving hand' className='fs-2'>
-                👋
-              </span>
-
-              <h2>Welcome back!</h2>
-
-              <div className='text-center'>Save the planet from the comfort of your home</div>
+              <h2>Create your account</h2>
+              <div>No hidden fees</div>
 
               <form
                 noValidate
@@ -86,6 +87,26 @@ const SignIn = () => {
                 validated={validated.toString()}
                 className='mt-4 w-100 needs-validation'
               >
+                <div className='mb-3'>
+                  <label className='form-label' htmlFor='fullname'>
+                    {fullname.label}
+                  </label>
+
+                  <input
+                    type='text'
+                    id={fullname.name}
+                    name={fullname.name}
+                    onChange={onChange}
+                    value={details[fullname.name]}
+                    placeholder={fullname.placeholder}
+                    className={
+                      hasErrors(fullname.name) ? 'form-control is-invalid' : 'form-control'
+                    }
+                  />
+
+                  <div className='invalid-feedback'>{errors[fullname.name]}</div>
+                </div>
+
                 <div className='mb-3'>
                   <label className='form-label' htmlFor='contact'>
                     {contact.label}
@@ -122,10 +143,25 @@ const SignIn = () => {
                   />
 
                   <div className='invalid-feedback'>{errors[password.name]}</div>
+                </div>
 
-                  {hasErrors(password.name) ? null : (
-                    <div className='form-text'>Must be at least 8 characters</div>
-                  )}
+                <div className=' form-check mb-3'>
+                  <input
+                    className='form-check-input'
+                    type='checkbox'
+                    name={agree.name}
+                    id={agree.name}
+                    onChange={onCheckChange}
+                    checked={details[agree.name]}
+                    value={details[agree.name]}
+                  />
+                  <label className='form-check-label fs-6 text' htmlFor='terms'>
+                    By creating an account means you agree to the{' '}
+                    <span className='fw-bold'>Terms and Conditions</span>, and our{' '}
+                    <span className='fw-bold'>Privacy Policy.</span>
+                  </label>
+
+                  <div className='invalid-feedback d-block'>{errors[agree.name]}</div>
                 </div>
 
                 <div className='d-grid gap-2'>
@@ -134,11 +170,10 @@ const SignIn = () => {
                     disabled={isSubmitting}
                     className='btn btn-primary text-white'
                   >
-                    Sign in
+                    Register
                   </button>
                 </div>
               </form>
-
               <ThirdParty />
             </div>
           </div>
@@ -148,4 +183,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default SignUp;

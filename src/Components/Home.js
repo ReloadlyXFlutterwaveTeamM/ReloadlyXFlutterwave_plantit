@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import { Navigation } from 'Commons';
 
@@ -29,14 +30,14 @@ const Home = () => (
           </div>
 
           <div className='d-grid gap-2 col-8'>
-            <button type='button' className='btn btn-primary text-white'>
+            <Link to='/auth/signup' className='btn btn-primary text-white'>
               Start here
-            </button>
+            </Link>
           </div>
         </div>
       </div>
 
-      <div className='col-12 col-sm-7 h-100'>
+      <div className='col-12 col-sm-7 h-100 d-flex flex-column justify-content-center align-items-center'>
         <img
           className='img-fluid'
           title='Gardening Bro'

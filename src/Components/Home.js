@@ -37,7 +37,7 @@ const Home = () => (
         </div>
       </div>
 
-      <div className='col-12 col-sm-7 h-100 d-flex flex-column justify-content-center align-items-center'>
+      <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>
         <img
           className='img-fluid'
           title='Gardening Bro'

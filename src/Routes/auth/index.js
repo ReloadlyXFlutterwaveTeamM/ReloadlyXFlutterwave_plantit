@@ -3,7 +3,7 @@ import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
 import { Auth } from 'Components';
 
-const { Signin, Signup } = Auth;
+const { SignIn, SignUp } = Auth;
 
 const AuthRoutes = () => {
   const { path } = useRouteMatch();
@@ -11,11 +11,11 @@ const AuthRoutes = () => {
   return (
     <Switch>
       <Route path={`${path}/signin`}>
-        <Signin />
+        <SignIn />
       </Route>
 
       <Route path={`${path}/signup`}>
-        <Signup />
+        <SignUp />
       </Route>
     </Switch>
   );

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -64,9 +65,22 @@ const SignUp = () => {
     <div className='container-fluid h-100'>
       <div className='row h-100'>
         <div
-          className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start'
+          className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start position-relative'
           style={{ padding: '0 4rem' }}
         >
+          <Link
+            to='/'
+            className='d-none d-sm-block position-absolute top-0 start-0'
+            style={{ height: '5rem' }}
+          >
+            <img
+              title='Plant It!'
+              alt='Plant It! Logo'
+              className='img-fluid hg-100'
+              src={`${process.env.PUBLIC_URL}/assets/logos/plantit_white.png`}
+            />
+          </Link>
+
           <h1>Your first time huh?</h1>
           <h1>Let’s get you started.</h1>
           <div className='mt-2 fw-light'>
@@ -74,7 +88,20 @@ const SignUp = () => {
           </div>
         </div>
 
-        <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>
+        <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center position-relative'>
+          <Link
+            to='/'
+            className='d-flex d-sm-none position-absolute top-0 start-0'
+            style={{ height: '5rem' }}
+          >
+            <img
+              title='Plant It!'
+              alt='Plant It! Logo'
+              className='img-fluid hg-100'
+              src={`${process.env.PUBLIC_URL}/assets/logos/plantit_green.png`}
+            />
+          </Link>
+
           <div className='row align-items-center justify-content-center w-100'>
             <div className='col-12 col-sm-8 col-md-6 d-flex flex-column justify-content-center align-items-center'>
               <h2>Create your account</h2>

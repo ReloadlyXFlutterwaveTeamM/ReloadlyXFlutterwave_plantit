@@ -1,4 +1,7 @@
 import * as Navigation from './Navigation';
 
-// eslint-disable-next-line import/prefer-default-export
 export { Navigation };
+export { default as Donate } from './Donate';
+export { default as Articles } from './Articles';
+export { default as Partners } from './Partners';
+export { default as Summary } from './Summary';

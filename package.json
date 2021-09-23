@@ -57,7 +57,9 @@
     ],
     "rules": {
       "react/jsx-filename-extension": "off",
-      "react-hooks/exhaustive-deps": "off"
+      "react-hooks/exhaustive-deps": "off",
+      "react/prop-types": "off",
+      "camelcase": "off"
     },
     "settings": {
       "import/resolver": {

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -11,6 +11,8 @@ const {
 } = model;
 
 const SignIn = () => {
+  const { push } = useHistory();
+
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,7 +26,7 @@ const SignIn = () => {
 
   const signin = async () => {
     try {
-      window.console.log('signed in');
+      push('/dashboard');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));
     }

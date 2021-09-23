@@ -3,32 +3,44 @@ import * as Yup from 'yup';
 import model from './model';
 
 const { fields } = model;
-const { contact, password, fullname, agree } = fields;
+const { email, phone_number, password, fullname, agree } = fields;
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const phoneRegex = /^[0-9]{10}$/;
 
 const initialValues = {
-  [contact.name]: '',
   [password.name]: '',
   [fullname.name]: '',
   [agree.name]: true,
+  [email.name]: '',
+  [phone_number.name]: '',
 };
 
-function validateContact(value) {
+function validateEmail(value) {
   const isValidEmail = emailRegex.test(value);
+
+  if (!isValidEmail) {
+    return false;
+  }
+  return true;
+}
+
+function validatePhone(value) {
   const isValidPhone = phoneRegex.test(value);
 
-  if (!isValidEmail && !isValidPhone) {
+  if (!isValidPhone) {
     return false;
   }
   return true;
 }
 
 const validation = Yup.object().shape({
-  [contact.name]: Yup.string()
-    .test('validate_contact', contact.requiredErrorMsg, validateContact)
-    .required(contact.requiredErrorMsg),
+  [email.name]: Yup.string()
+    .test('validate_email', email.requiredErrorMsg, validateEmail)
+    .required(email.requiredErrorMsg),
+  [phone_number.name]: Yup.string()
+    .test('validate_phone', phone_number.requiredErrorMsg, validatePhone)
+    .required(phone_number.requiredErrorMsg),
   [password.name]: Yup.string().required(password.requiredErrorMsg),
   [fullname.name]: Yup.string().required(fullname.requiredErrorMsg),
   [agree.name]: Yup.boolean()

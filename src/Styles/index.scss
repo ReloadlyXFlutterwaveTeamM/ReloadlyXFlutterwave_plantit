@@ -48,6 +48,13 @@ h6 {
   }
 }
 
+#dashboard-routes,
+.auth-nav-imgs {
+  img {
+    height: 5rem;
+  }
+}
+
 #dashboard-navbar {
   img {
     height: 3rem;
@@ -61,6 +68,9 @@ h6 {
 @include media-breakpoint-down(md) {
   #dashboard-container {
     padding: 5rem 0 1rem;
+  }
+  #auth-container {
+    padding-top: 5rem;
   }
 }
 

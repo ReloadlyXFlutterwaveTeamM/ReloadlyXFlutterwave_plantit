@@ -7,12 +7,18 @@ export default {
       placeholder: 'Enter your name',
       requiredErrorMsg: 'A full name is required',
     },
-    contact: {
-      name: 'contact',
-      label: 'E-mail or phone number',
-      placeholder: 'Type your e-mail or phone number',
-      requiredErrorMsg: 'A valid email or phone number is required',
+    email: {
+      name: 'email',
+      label: 'E-mail',
+      placeholder: 'Type your e-mail',
+      requiredErrorMsg: 'A valid email is required',
       validEmailMsg: 'A valid email is required',
+    },
+    phone_number: {
+      name: 'phone_number',
+      label: 'Phone number',
+      placeholder: 'Type your phone number',
+      requiredErrorMsg: 'A valid phone number is required',
       validPhoneMsg: 'A valid phone number is required',
     },
     password: {

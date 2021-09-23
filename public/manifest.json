@@ -1,12 +1,12 @@
 {
   "name": "Plant it!",
   "short_name": "Plant it!",
-  "description": "Plant a tree from the comformt of your home",
+  "description": "Plant a tree from the comfort of your home",
   "scope": "/",
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#0f3d59",
-  "background_color": "#0f3d59",
+  "theme_color": "#4aae8c",
+  "background_color": "#ffffff",
   "icons": [
     {
       "src": "/assets/icons/favicon.ico",

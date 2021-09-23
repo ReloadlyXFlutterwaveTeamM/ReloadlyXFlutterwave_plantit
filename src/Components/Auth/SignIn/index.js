@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -26,6 +26,9 @@ const SignIn = () => {
 
   const signin = async () => {
     try {
+      setErrors({});
+      setIsSubmitting(false);
+      setDetails(initialValues);
       push('/dashboard');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));
@@ -39,10 +42,6 @@ const SignIn = () => {
       await validation.validate(details, { abortEarly: false });
 
       await signin();
-
-      setErrors({});
-      setIsSubmitting(false);
-      setDetails(initialValues);
     } catch (error) {
       const { inner } = error || {};
 
@@ -63,40 +62,15 @@ const SignIn = () => {
     <div className='container-fluid h-100'>
       <div className='row h-100'>
         <div
-          className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start position-relative'
+          className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start'
           style={{ padding: '0 4rem' }}
         >
-          <Link
-            to='/'
-            className='d-none d-sm-block position-absolute top-0 start-0'
-            style={{ height: '5rem' }}
-          >
-            <img
-              title='Plant It!'
-              alt='Plant It! Logo'
-              className='img-fluid hg-100'
-              src={`${process.env.PUBLIC_URL}/assets/logos/plantit_white.png`}
-            />
-          </Link>
-
           <h1>You’re back!</h1>
           <h1>We’re glad.</h1>
           <div className='mt-2 fw-light'>You have some stuff to do here, right?</div>
         </div>
 
-        <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center position-relative'>
-          <Link
-            to='/'
-            className='d-flex d-sm-none position-absolute top-0 start-0'
-            style={{ height: '5rem' }}
-          >
-            <img
-              title='Plant It!'
-              alt='Plant It! Logo'
-              className='img-fluid hg-100'
-              src={`${process.env.PUBLIC_URL}/assets/logos/plantit_green.png`}
-            />
-          </Link>
+        <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>
           <div className='row align-items-center justify-content-center w-100'>
             <div className='col-12 col-sm-8 col-md-6 d-flex flex-column justify-content-center align-items-center'>
               <span role='img' aria-label='waving hand' className='fs-2'>

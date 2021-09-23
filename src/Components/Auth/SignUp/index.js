@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -7,10 +7,12 @@ import ThirdParty from '../ThirdParty';
 
 const {
   formId,
-  fields: { contact, password, fullname, agree },
+  fields: { email, phone_number, password, fullname, agree },
 } = model;
 
 const SignUp = () => {
+  const { push } = useHistory();
+
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,7 +30,10 @@ const SignUp = () => {
 
   const register = async () => {
     try {
-      window.console.log('Registered');
+      setErrors({});
+      setIsSubmitting(false);
+      setDetails(initialValues);
+      push('/auth/signin');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));
     }
@@ -41,10 +46,6 @@ const SignUp = () => {
       await validation.validate(details, { abortEarly: false });
 
       await register();
-
-      setErrors({});
-      setIsSubmitting(false);
-      setDetails(initialValues);
     } catch (error) {
       const { inner } = error || {};
 
@@ -65,22 +66,9 @@ const SignUp = () => {
     <div className='container-fluid h-100'>
       <div className='row h-100'>
         <div
-          className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start position-relative'
+          className='col-5 bg-primary text-white d-none d-sm-flex flex-column justify-content-center align-items-start'
           style={{ padding: '0 4rem' }}
         >
-          <Link
-            to='/'
-            className='d-none d-sm-block position-absolute top-0 start-0'
-            style={{ height: '5rem' }}
-          >
-            <img
-              title='Plant It!'
-              alt='Plant It! Logo'
-              className='img-fluid hg-100'
-              src={`${process.env.PUBLIC_URL}/assets/logos/plantit_white.png`}
-            />
-          </Link>
-
           <h1>Your first time huh?</h1>
           <h1>Let’s get you started.</h1>
           <div className='mt-2 fw-light'>
@@ -88,20 +76,7 @@ const SignUp = () => {
           </div>
         </div>
 
-        <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center position-relative'>
-          <Link
-            to='/'
-            className='d-flex d-sm-none position-absolute top-0 start-0'
-            style={{ height: '5rem' }}
-          >
-            <img
-              title='Plant It!'
-              alt='Plant It! Logo'
-              className='img-fluid hg-100'
-              src={`${process.env.PUBLIC_URL}/assets/logos/plantit_green.png`}
-            />
-          </Link>
-
+        <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>
           <div className='row align-items-center justify-content-center w-100'>
             <div className='col-12 col-sm-8 col-md-6 d-flex flex-column justify-content-center align-items-center'>
               <h2>Create your account</h2>
@@ -115,7 +90,7 @@ const SignUp = () => {
                 className='mt-4 w-100 needs-validation'
               >
                 <div className='mb-3'>
-                  <label className='form-label' htmlFor='fullname'>
+                  <label className='form-label' htmlFor={fullname.name}>
                     {fullname.label}
                   </label>
 
@@ -135,25 +110,45 @@ const SignUp = () => {
                 </div>
 
                 <div className='mb-3'>
-                  <label className='form-label' htmlFor='contact'>
-                    {contact.label}
+                  <label className='form-label' htmlFor={email.name}>
+                    {email.label}
                   </label>
 
                   <input
-                    type='text'
-                    id={contact.name}
-                    name={contact.name}
+                    type='email'
+                    id={email.name}
+                    name={email.name}
                     onChange={onChange}
-                    value={details[contact.name]}
-                    placeholder={contact.placeholder}
-                    className={hasErrors(contact.name) ? 'form-control is-invalid' : 'form-control'}
+                    value={details[email.name]}
+                    placeholder={email.placeholder}
+                    className={hasErrors(email.name) ? 'form-control is-invalid' : 'form-control'}
                   />
 
-                  <div className='invalid-feedback'>{errors[contact.name]}</div>
+                  <div className='invalid-feedback'>{errors[email.name]}</div>
                 </div>
 
                 <div className='mb-3'>
-                  <label className='form-label' htmlFor='password'>
+                  <label className='form-label' htmlFor={phone_number.name}>
+                    {phone_number.label}
+                  </label>
+
+                  <input
+                    type='tel'
+                    id={phone_number.name}
+                    name={phone_number.name}
+                    onChange={onChange}
+                    value={details[phone_number.name]}
+                    placeholder={phone_number.placeholder}
+                    className={
+                      hasErrors(phone_number.name) ? 'form-control is-invalid' : 'form-control'
+                    }
+                  />
+
+                  <div className='invalid-feedback'>{errors[phone_number.name]}</div>
+                </div>
+
+                <div className='mb-3'>
+                  <label className='form-label' htmlFor={password.name}>
                     {password.label}
                   </label>
 

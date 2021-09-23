@@ -16,7 +16,7 @@ const Navbar = () => (
           </Link>
         </div>
 
-        <div className='col-4 d-none d-sm-flex flex-row'>
+        <div className='col-4 d-none flex-row'>
           <Link className='tab-links col-4' to='/'>
             Home
           </Link>

@@ -19,17 +19,17 @@ const partners = [
 
 const articles = [
   {
-    title: 'Climate Change: What You Need to Know [VIDEO]',
+    title: 'Climate Change: What You Need to Know [VIDEO 1]',
     description: 'Climate change is generally defined as a significant...',
     link: 'https://www.bbc.com/',
   },
   {
-    title: 'Climate Change: What You Need to Know [VIDEO]',
+    title: 'Climate Change: What You Need to Know [VIDEO 2]',
     description: 'Climate change is generally defined as a significant...',
     link: 'https://www.bbc.com/',
   },
   {
-    title: 'Climate Change: What You Need to Know [VIDEO]',
+    title: 'Climate Change: What You Need to Know [VIDEO 3]',
     description: 'Climate change is generally defined as a significant...',
     link: 'https://www.bbc.com/',
   },

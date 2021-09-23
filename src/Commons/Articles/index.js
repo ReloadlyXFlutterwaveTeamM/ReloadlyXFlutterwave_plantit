@@ -8,7 +8,10 @@ const Articles = ({ articles }) => (
       {articles.map((article) => {
         const { title, description, link } = article;
         return (
-          <div className='m-1 p-3 d-flex flex-column shadow-sm border border-1 rounded-3'>
+          <div
+            key={title}
+            className='m-1 p-3 d-flex flex-column shadow-sm border border-1 rounded-3'
+          >
             <div className='fw-bold'>{title}</div>
             <div className='text-muted small'>{description}</div>
 

@@ -9,6 +9,7 @@ const Partners = ({ partners }) => (
         const { title, alt, src } = partner;
         return (
           <div
+            key={title}
             style={{ height: '10rem', width: '10rem' }}
             className='m-1 shadow-sm d-flex flex-column align-items-center justify-content-center border border-1 rounded-3'
           >

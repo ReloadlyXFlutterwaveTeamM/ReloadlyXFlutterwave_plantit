@@ -5,9 +5,10 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-import './Styles/index.scss';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import '@fortawesome/fontawesome-free/css/all.css';
+import 'mapbox-gl/dist/mapbox-gl.css';
+import './Styles/index.scss';
 
 ReactDOM.render(
   <React.StrictMode>

@@ -12,6 +12,24 @@ const {
 
 const TREE_COST = 2;
 
+const TREE_TYPES = [
+  { name: 'Mahogany', value: 'Mahogany' },
+  { name: 'Moringa', value: 'Moringa' },
+  { name: 'Ube', value: 'Ube' },
+  { name: 'Light Bosse', value: 'Light Bosse' },
+  { name: 'Yohimbe', value: 'Yohimbe' },
+  { name: 'African Corkwood Tree', value: 'African Corkwood Tree' },
+];
+
+const PLANTING_AREAS = [
+  { name: 'Kaduna', value: 'Kaduna' },
+  { name: 'Zaria', value: 'Zaria' },
+  { name: 'Yelwa', value: 'Yelwa' },
+  { name: 'Gusau', value: 'Gusau' },
+  { name: 'Kano', value: 'Kano' },
+  { name: 'Bauchi', value: 'Bauchi' },
+];
+
 const Donate = () => {
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
@@ -100,7 +118,7 @@ const Donate = () => {
             {planting_area.label}
           </label>
 
-          <input
+          <select
             type='text'
             id={planting_area.name}
             name={planting_area.name}
@@ -108,7 +126,17 @@ const Donate = () => {
             value={details[planting_area.name]}
             placeholder={planting_area.placeholder}
             className={hasErrors(planting_area.name) ? 'form-control is-invalid' : 'form-control'}
-          />
+          >
+            <option value=''>{planting_area.placeholder}</option>
+            {PLANTING_AREAS.map((area) => {
+              const { name, value } = area;
+              return (
+                <option key={name} value={value}>
+                  {name}
+                </option>
+              );
+            })}
+          </select>
 
           <div className='invalid-feedback'>{errors[planting_area.name]}</div>
         </div>
@@ -118,7 +146,7 @@ const Donate = () => {
             {tree_type.label}
           </label>
 
-          <input
+          <select
             type='text'
             id={tree_type.name}
             name={tree_type.name}
@@ -126,7 +154,17 @@ const Donate = () => {
             value={details[tree_type.name]}
             placeholder={tree_type.placeholder}
             className={hasErrors(tree_type.name) ? 'form-control is-invalid' : 'form-control'}
-          />
+          >
+            <option value=''>{tree_type.placeholder}</option>
+            {TREE_TYPES.map((type) => {
+              const { name, value } = type;
+              return (
+                <option key={name} value={value}>
+                  {name}
+                </option>
+              );
+            })}
+          </select>
 
           <div className='invalid-feedback'>{errors[tree_type.name]}</div>
         </div>

@@ -1,10 +1,9 @@
 import React from 'react';
 import { Switch, Route, useRouteMatch } from 'react-router-dom';
 
-import { Dashboard } from 'Components';
+import { Dashboard, Locations, Redeem } from 'Components';
 import { Navigation } from 'Commons';
 
-const { Locations, Redeem, Dashboard: Home } = Dashboard;
 const { DashboardNav } = Navigation;
 
 const DashboardRoutes = () => {
@@ -23,7 +22,7 @@ const DashboardRoutes = () => {
           </Route>
 
           <Route path={`${path}/`}>
-            <Home />
+            <Dashboard />
           </Route>
         </Switch>
       </div>

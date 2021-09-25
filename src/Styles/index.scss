@@ -74,14 +74,15 @@ h6 {
   #dashboard-container {
     padding: 5rem 0 1rem;
   }
-  #auth-container {
-    padding-top: 5rem;
-  }
 }
 
 @include media-breakpoint-down(sm) {
   #home {
     margin-top: 5.5rem;
     padding: 1rem;
+  }
+
+  #auth-container {
+    padding-top: 5rem;
   }
 }

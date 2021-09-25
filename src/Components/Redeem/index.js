@@ -39,6 +39,8 @@ const Redeem = () => {
   const [minimum, setMinimum] = useState(100);
   const [maximum, setMaximum] = useState(100);
 
+  const [isRedeemable, setIsRedeemable] = useState(false);
+
   const handleSendAirtime = async ({ amount = 100 }) => {
     try {
       const operatorRes = await getOperatorDetails(airtime_access_token, {
@@ -118,6 +120,8 @@ const Redeem = () => {
 
     setMaximum(maxAmount);
     setMinimum(minAmount);
+
+    setIsRedeemable(!(redeemableAmount > 0));
   }, [redeemable_points]);
 
   const handleSubmit = () => {
@@ -132,7 +136,7 @@ const Redeem = () => {
         handleSendGiftCard(values);
         return;
       default:
-        console.log('Pop II');
+        window.console.log('Pop II');
     }
   };
 
@@ -158,6 +162,8 @@ const Redeem = () => {
         return <div />;
     }
   };
+
+  console.log('isRedeemable', isRedeemable);
 
   return (
     <div className='container'>
@@ -187,10 +193,11 @@ const Redeem = () => {
                 <div className='d-grid gap-2 mt-3'>
                   <button
                     type='button'
+                    disabled={isRedeemable}
                     className='col-6 btn btn-sm btn-primary text-white'
                     onClick={() => handleButtonClick(AIRTIME_TOPSUPS)}
                   >
-                    Redeem
+                    {isRedeemable ? 'Redeem' : 'Earn more points to redeem'}
                   </button>
                 </div>
               </div>
@@ -212,10 +219,11 @@ const Redeem = () => {
                 <div className='d-grid gap-2 mt-3'>
                   <button
                     type='button'
+                    disabled={isRedeemable}
                     onClick={() => handleButtonClick(GIFT_CARDS)}
                     className='col-6 btn btn-sm btn-primary text-white'
                   >
-                    Redeem
+                    {isRedeemable ? 'Redeem' : 'Earn more points to redeem'}
                   </button>
                 </div>
               </div>

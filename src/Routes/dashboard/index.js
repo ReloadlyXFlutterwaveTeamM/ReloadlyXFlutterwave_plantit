@@ -28,8 +28,6 @@ const DashboardRoutes = () => {
     }
   }, []);
 
-  console.log('State, ', state);
-
   return (
     <>
       <DashboardNav handleClick={handleLogout} name={fullname} />

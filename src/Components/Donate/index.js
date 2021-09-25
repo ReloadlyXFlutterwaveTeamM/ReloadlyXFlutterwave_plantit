@@ -126,7 +126,8 @@ const Donate = ({ auth }) => {
   const handleFlutterPayment = useFlutterwave(config);
 
   const paymentCallback = (response) => {
-    window.console.log(response);
+    // window.console.log(response);
+    localStorage.setItem('Response', response);
     closePaymentModal(); // this will close the modal programmatically
   };
 

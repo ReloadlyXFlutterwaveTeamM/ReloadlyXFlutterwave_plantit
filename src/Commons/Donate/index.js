@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { RiVisaLine, RiMastercardFill } from 'react-icons/ri';
 import { GrAmex } from 'react-icons/gr';
+import * as bootstrap from 'bootstrap';
+
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -30,12 +33,58 @@ const PLANTING_AREAS = [
   { name: 'Bauchi', value: 'Bauchi' },
 ];
 
-const Donate = () => {
+const Modal = ({ onClose, handleAgree }) => {
+  const onAgree = () => {
+    handleAgree();
+    onClose();
+  };
+
+  const onDisagree = () => {
+    onClose();
+  };
+
+  return (
+    <div tabIndex='-1' id='donate_modal' className='modal'>
+      <div className='modal-dialog modal-dialog-centered modal-dialog-scrollable'>
+        <div className='modal-content'>
+          <div className='modal-body d-flex flex-column align-items-center justify-content-center'>
+            <div className='fw-bold text-center'>Allow FlutterWave to process the payment?</div>
+            <div className='fw-normal text-center text-muted'>
+              You will be navigated away from our site to the flatterwave payment portal.
+            </div>
+            <div className='mt-2 small text-center text-muted'>Would you like to proceed?</div>
+          </div>
+
+          <div className='modal-footer flex-nowrap p-0'>
+            <button
+              type='button'
+              onClick={onAgree}
+              className='btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right'
+            >
+              <strong>Yes, proceed</strong>
+            </button>
+            <button
+              type='button'
+              onClick={onDisagree}
+              className='btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0'
+            >
+              No thanks
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Donate = ({ user }) => {
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [details, setDetails] = useState(initialValues);
-  const [subTotal, setSubTotal] = useState();
+  const [amount, setAmount] = useState();
+
+  const { email, phone_number, fullname } = user || {};
 
   const onChange = (e) => {
     setDetails((d) => ({ ...d, [e.target.name]: e.target.value }));
@@ -43,9 +92,56 @@ const Donate = () => {
 
   const hasErrors = (key) => key in errors;
 
+  const showModal = () => {
+    const element = document.getElementById('donate_modal');
+    const donateModal = new bootstrap.Modal(element, { keyboard: false, backdrop: true });
+    donateModal.show();
+  };
+
+  const hideModal = () => {
+    const element = document.getElementById('donate_modal');
+    const donateModal = bootstrap.Modal.getInstance(element);
+    donateModal.hide();
+    donateModal.dispose();
+  };
+
+  const config = {
+    public_key: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY,
+    tx_ref: `PLANTIT-${new Date().getTime()}`,
+    amount,
+    currency: 'NGN',
+    payment_options: 'card,mobilemoney,ussd',
+    customer: {
+      email,
+      name: fullname,
+      phonenumber: phone_number,
+    },
+    customizations: {
+      title: 'Plant It! Donation',
+      description: `Donation for ${details[number_of_trees.name]} trees`,
+      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+    },
+  };
+
+  const handleFlutterPayment = useFlutterwave(config);
+
+  const paymentCallback = (response) => {
+    console.log(response);
+    closePaymentModal(); // this will close the modal programmatically
+  };
+
+  const paymentClose = () => {};
+
+  const handlePayment = () => {
+    handleFlutterPayment({
+      callback: paymentCallback,
+      onClose: paymentClose,
+    });
+  };
+
   const donate = async () => {
     try {
-      window.console.log('signed in');
+      showModal();
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));
     }
@@ -79,7 +175,7 @@ const Donate = () => {
   };
 
   useEffect(() => {
-    setSubTotal(details[number_of_trees.name] * TREE_COST);
+    setAmount(details[number_of_trees.name] * TREE_COST);
   }, [details[number_of_trees.name]]);
 
   return (
@@ -172,9 +268,7 @@ const Donate = () => {
         <div className='d-flex align-items-center justify-content-between'>
           <div className='d-flex flex-column'>
             <div className='fw-bold'>Sub Total</div>
-            <div className='fw-light small'>{`USD. ${
-              subTotal ? subTotal.toFixed(2) : 'XXXX'
-            }`}</div>
+            <div className='fw-light small'>{`USD. ${amount ? amount.toFixed(2) : 'XXXX'}`}</div>
           </div>
           <button type='submit' disabled={isSubmitting} className='btn btn-primary text-white'>
             Plant now
@@ -191,6 +285,8 @@ const Donate = () => {
       <div className='text-muted text-center small mt-2'>
         All trees donated are accounted for and nurtured by experts
       </div>
+
+      <Modal onClose={hideModal} handleAgree={handlePayment} />
     </div>
   );
 };

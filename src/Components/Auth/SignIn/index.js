@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
+import { contexts, types } from 'Store';
+
 import model from './model';
-import { validation, initialValues } from './schema';
 import ThirdParty from '../ThirdParty';
+import { validation, initialValues } from './schema';
+
+const { AuthContext } = contexts;
+const { SET_AUTH } = types;
 
 const {
   formId,
@@ -12,6 +17,7 @@ const {
 
 const SignIn = () => {
   const { push } = useHistory();
+  const { dispatch } = useContext(AuthContext);
 
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
@@ -26,6 +32,7 @@ const SignIn = () => {
 
   const signin = async () => {
     try {
+      dispatch({ type: SET_AUTH, payload: {} });
       setErrors({});
       setIsSubmitting(false);
       setDetails(initialValues);

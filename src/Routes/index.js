@@ -1,25 +1,39 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { Switch, Route } from 'react-router-dom';
 
 import { Home } from 'Components';
+import { contexts, initialStates, reducers } from 'Store';
 
 import AuthRoutes from './auth';
 import DashboardRoutes from './dashboard';
 
-const Routes = () => (
-  <Switch>
-    <Route path='/auth'>
-      <AuthRoutes />
-    </Route>
+const { alertInitialState, authInitialState } = initialStates;
+const { AlertContext, AuthContext } = contexts;
+const { authReducer, alertReducer } = reducers;
 
-    <Route path='/dashboard'>
-      <DashboardRoutes />
-    </Route>
+const Routes = () => {
+  const [authState, authDispatch] = useReducer(authReducer, authInitialState);
+  const [alertState, alertDispatch] = useReducer(alertReducer, alertInitialState);
 
-    <Route path='/'>
-      <Home />
-    </Route>
-  </Switch>
-);
+  return (
+    <AlertContext.Provider value={{ state: alertState, dispatch: alertDispatch }}>
+      <AuthContext.Provider value={{ state: authState, dispatch: authDispatch }}>
+        <Switch>
+          <Route path='/auth'>
+            <AuthRoutes />
+          </Route>
+
+          <Route path='/dashboard'>
+            <DashboardRoutes />
+          </Route>
+
+          <Route path='/'>
+            <Home />
+          </Route>
+        </Switch>
+      </AuthContext.Provider>
+    </AlertContext.Provider>
+  );
+};
 
 export default Routes;

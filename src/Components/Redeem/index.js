@@ -1,33 +1,161 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import * as bootstrap from 'bootstrap';
 
-import { sendAirtimeTopUps, getOperatorDetails } from 'Adapters';
+import {
+  sendAirtimeTopUps,
+  getOperatorDetails,
+  orderGiftCards,
+  getAllGiftCardProducts,
+} from 'Adapters';
+import { Modal } from 'Commons';
+import { contexts } from 'Store';
+
+import AirtimeForm from './Airtime';
+import DataForm from './Data';
+import GiftCard from './GiftCard';
+
+const { AuthContext } = contexts;
+
+const AIRTIME_TOPSUPS = 'AIRTIME_TOPSUPS';
+const DATA_BUNDLES = 'DATA_BUNDLES';
+const GIFT_CARDS = 'GIFT_CARDS';
 
 const Redeem = () => {
-  const handleSendAirtime = async () => {
+  const { state } = useContext(AuthContext);
+
+  const {
+    airtime_access_token,
+    gift_card_access_token,
+    points: redeemable_points,
+    phone_number: recipient_contact,
+    country_code: recipient_country_code,
+    fullname: recipient_name,
+    email: recipient_email,
+  } = state || {};
+
+  const [selected, setSelected] = useState('');
+  const [values, setValues] = useState({});
+  const [products, setProducts] = useState([]);
+  const [minimum, setMinimum] = useState(100);
+  const [maximum, setMaximum] = useState(100);
+
+  const handleSendAirtime = async ({ amount = 100 }) => {
     try {
-      const recipient_contact = '0789566944';
-      const recipient_country_code = 'UG';
-
-      const access_token =
-        'eyJraWQiOiI1N2JjZjNhNy01YmYwLTQ1M2QtODQ0Mi03ODhlMTA4OWI3MDIiLCJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI4OTI5IiwiaXNzIjoiaHR0cHM6Ly9yZWxvYWRseS1zYW5kYm94LmF1dGgwLmNvbS8iLCJodHRwczovL3JlbG9hZGx5LmNvbS9zYW5kYm94Ijp0cnVlLCJodHRwczovL3JlbG9hZGx5LmNvbS9wcmVwYWlkVXNlcklkIjoiODkyOSIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyIsImF1ZCI6Imh0dHBzOi8vdG9wdXBzLWhzMjU2LXNhbmRib3gucmVsb2FkbHkuY29tIiwibmJmIjoxNjMyNTI3NzQwLCJhenAiOiI4OTI5Iiwic2NvcGUiOiJzZW5kLXRvcHVwcyByZWFkLW9wZXJhdG9ycyByZWFkLXByb21vdGlvbnMgcmVhZC10b3B1cHMtaGlzdG9yeSByZWFkLXByZXBhaWQtYmFsYW5jZSByZWFkLXByZXBhaWQtY29tbWlzc2lvbnMiLCJleHAiOjE2MzI2MTQxNDAsImh0dHBzOi8vcmVsb2FkbHkuY29tL2p0aSI6IjZmMGE4NWI0LWJjZTYtNGExZC05MmVhLWIwYzM1MDhiM2FmMyIsImlhdCI6MTYzMjUyNzc0MCwianRpIjoiYjNkYTMwODEtYTYyZi00MTY2LTgzZDMtODk3MjhlMGJjY2EzIn0.DQ7GE3iZpTfZLnTL6LEUPHxJIhVo6BT_PqWN9fK9Is4';
-
-      const operatorRes = await getOperatorDetails(access_token, {
+      const operatorRes = await getOperatorDetails(airtime_access_token, {
         recipient_contact,
         recipient_country_code,
       });
 
       const { id: operatorId } = operatorRes || {};
 
-      const reference = `PLANTIT-${new Date().getTime()}`;
+      const reference = `PLANTIT-AIRTIME-${new Date().getTime()}`;
 
-      const response = await sendAirtimeTopUps(access_token, reference, 500, {
+      const response = await sendAirtimeTopUps(airtime_access_token, reference, amount, {
         operatorId,
         recipient_contact,
         recipient_country_code,
       });
-      console.log('Response', response);
+      window.console.log('Airtime Card Response', response);
     } catch (error) {
-      console.log('Error', error);
+      window.console.log('Error', error);
+    }
+  };
+
+  const handleSendData = () => {};
+
+  const handleSendGiftCard = async ({ product }) => {
+    try {
+      const reference = `PLANTIT-GIFTCARD-${new Date().getTime()}`;
+
+      const response = await orderGiftCards(gift_card_access_token, reference, product, {
+        recipient_name,
+        recipient_email,
+        recipient_country_code,
+      });
+      window.console.log('Gift Card Response', response);
+    } catch (error) {
+      window.console.log('Error', error);
+    }
+  };
+
+  const openModal = () => {
+    const element = document.getElementById('redeem_modal');
+    const redeemModal = new bootstrap.Modal(element, { keyboard: false, backdrop: true });
+    redeemModal.show();
+  };
+
+  const closeModal = () => {
+    const element = document.getElementById('redeem_modal');
+    const redeemModal = bootstrap.Modal.getInstance(element);
+    redeemModal.hide();
+    redeemModal.dispose();
+  };
+
+  const handleButtonClick = (modal) => {
+    setSelected(modal);
+    openModal();
+  };
+
+  useEffect(() => {
+    const getGiftProducts = async () => {
+      try {
+        const response = await getAllGiftCardProducts(gift_card_access_token, 'NG');
+        setProducts(response);
+      } catch (error) {
+        window.console.log('Error', error);
+      }
+    };
+
+    getGiftProducts();
+  }, []);
+
+  useEffect(() => {
+    const allowableAmount = 5; /** 5 USD allowable minimum amount */
+    const redeemableAmount = redeemable_points * 0.5 - allowableAmount;
+
+    const maxAmount = redeemableAmount < 0 ? 0 : redeemableAmount; /** O.5 USD reserved */
+    const minAmount = maxAmount <= allowableAmount ? 0 : allowableAmount;
+
+    setMaximum(maxAmount);
+    setMinimum(minAmount);
+  }, [redeemable_points]);
+
+  const handleSubmit = () => {
+    switch (selected) {
+      case AIRTIME_TOPSUPS:
+        handleSendAirtime(values);
+        return;
+      case DATA_BUNDLES:
+        handleSendData(values);
+        return;
+      case GIFT_CARDS:
+        handleSendGiftCard(values);
+        return;
+      default:
+        console.log('Pop II');
+    }
+  };
+
+  const renderModalContent = () => {
+    switch (selected) {
+      case AIRTIME_TOPSUPS:
+        return (
+          <AirtimeForm values={values} setValues={setValues} maximum={maximum} minimum={minimum} />
+        );
+      case DATA_BUNDLES:
+        return <DataForm values={values} setValues={setValues} />;
+      case GIFT_CARDS:
+        return (
+          <GiftCard
+            values={values}
+            setValues={setValues}
+            products={products}
+            maximum={maximum}
+            minimum={minimum}
+          />
+        );
+      default:
+        return <div />;
     }
   };
 
@@ -60,7 +188,32 @@ const Redeem = () => {
                   <button
                     type='button'
                     className='col-6 btn btn-sm btn-primary text-white'
-                    onClick={handleSendAirtime}
+                    onClick={() => handleButtonClick(AIRTIME_TOPSUPS)}
+                  >
+                    Redeem
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className='col'>
+            <div className='card h-100'>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/gift_cards.png`}
+                className='card-img-top'
+                alt='Gift Cards'
+              />
+              <div className='card-body'>
+                <div className='card-text small text-muted'>
+                  Redeem your points as gift cards ie xbox, ea, fifa, fornite
+                </div>
+
+                <div className='d-grid gap-2 mt-3'>
+                  <button
+                    type='button'
+                    onClick={() => handleButtonClick(GIFT_CARDS)}
+                    className='col-6 btn btn-sm btn-primary text-white'
                   >
                     Redeem
                   </button>
@@ -82,28 +235,12 @@ const Redeem = () => {
                 </div>
 
                 <div className='d-grid gap-2 mt-3'>
-                  <button type='button' className='col-6 btn btn-sm btn-primary text-white'>
-                    Redeem
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='col'>
-            <div className='card h-100'>
-              <img
-                src={`${process.env.PUBLIC_URL}/assets/images/gift_cards.png`}
-                className='card-img-top'
-                alt='Gift Cards'
-              />
-              <div className='card-body'>
-                <div className='card-text small text-muted'>
-                  Redeem your points as gift cards ie xbox, ea, fifa, fornite
-                </div>
-
-                <div className='d-grid gap-2 mt-3'>
-                  <button type='button' className='col-6 btn btn-sm btn-primary text-white'>
+                  <button
+                    type='button'
+                    disabled
+                    onClick={() => handleButtonClick(DATA_BUNDLES)}
+                    className='col-6 btn btn-sm btn-primary text-white'
+                  >
                     Redeem
                   </button>
                 </div>
@@ -112,6 +249,15 @@ const Redeem = () => {
           </div>
         </div>
       </div>
+      <Modal
+        modal_id='redeem_modal'
+        onClose={closeModal}
+        onSubmit={handleSubmit}
+        confirm_btn_msg='Redeem'
+        cancel_btn_msg='Cancel'
+      >
+        {renderModalContent()}
+      </Modal>
     </div>
   );
 };

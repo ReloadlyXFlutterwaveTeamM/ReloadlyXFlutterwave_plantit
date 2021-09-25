@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import { Donate, Articles, Partners, Summary } from 'Commons';
+import { contexts } from 'Store';
+
+import Articles from '../Articles';
+import Partners from '../Partners';
+import Summary from '../Summary';
+import Donate from '../Donate';
 
 const partners = [
   {
@@ -35,22 +40,28 @@ const articles = [
   },
 ];
 
-const Dashboard = () => (
-  <div className='container'>
-    <div className='row'>
-      <div className='col-md-7 col-lg-8'>
-        <Summary />
+const { AuthContext } = contexts;
 
-        <Partners partners={partners} />
+const Dashboard = () => {
+  const { state } = useContext(AuthContext);
 
-        <Articles articles={articles} />
-      </div>
+  return (
+    <div className='container'>
+      <div className='row'>
+        <div className='col-md-7 col-lg-8'>
+          <Summary />
 
-      <div className='col-md-5 col-lg-4 mt-2 mt-md-0'>
-        <Donate />
+          <Partners partners={partners} />
+
+          <Articles articles={articles} />
+        </div>
+
+        <div className='col-md-5 col-lg-4 mt-2 mt-md-0'>
+          <Donate auth={state} />
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default Dashboard;

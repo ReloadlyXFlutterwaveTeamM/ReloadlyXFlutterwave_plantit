@@ -34,9 +34,9 @@ const SignUp = () => {
 
   const hasErrors = (key) => key in errors;
 
-  const register = async () => {
+  const register = async (values) => {
     try {
-      dispatch({ type: SET_AUTH, payload: {} });
+      dispatch({ type: SET_AUTH, payload: { ...values } });
       setErrors({});
       setIsSubmitting(false);
       setDetails(initialValues);
@@ -52,7 +52,7 @@ const SignUp = () => {
     try {
       await validation.validate(details, { abortEarly: false });
 
-      await register();
+      await register(details);
     } catch (error) {
       const { inner } = error || {};
 

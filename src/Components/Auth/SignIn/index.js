@@ -30,9 +30,9 @@ const SignIn = () => {
 
   const hasErrors = (key) => key in errors;
 
-  const signin = async () => {
+  const signin = async (values) => {
     try {
-      dispatch({ type: SET_AUTH, payload: {} });
+      dispatch({ type: SET_AUTH, payload: { ...values, fullname: 'Lutaaya Brian Ivan' } });
       setErrors({});
       setIsSubmitting(false);
       setDetails(initialValues);
@@ -48,7 +48,7 @@ const SignIn = () => {
     try {
       await validation.validate(details, { abortEarly: false });
 
-      await signin();
+      await signin(details);
     } catch (error) {
       const { inner } = error || {};
 

@@ -21,7 +21,7 @@ const audience =
  */
 export const getOperatorDetails = async (
   access_token,
-  { recipient_contact, recipient_country_code },
+  { recipient_contact, recipient_country_code = 'NG' },
 ) => {
   try {
     const url = `${audience}/operators/auto-detect/phone/${recipient_contact}/countries/${recipient_country_code}?suggestedAmountsMap=true&SuggestedAmounts=true`;
@@ -33,6 +33,10 @@ export const getOperatorDetails = async (
         Accept: 'application/com.reloadly.topups-v1+json',
       },
     });
+
+    if (!res.ok) {
+      throw new Error('Unexpected Network Error');
+    }
 
     const response = await res.json();
     return response;
@@ -59,7 +63,7 @@ export const sendAirtimeTopUps = async (
   access_token,
   reference,
   amount,
-  { operatorId, recipient_contact, recipient_country_code },
+  { operatorId, recipient_contact, recipient_country_code = 'NG' },
 ) => {
   try {
     const url = `${audience}/topups`;
@@ -88,6 +92,10 @@ export const sendAirtimeTopUps = async (
       body,
     });
 
+    if (!res.ok) {
+      throw new Error('Unexpected Network Error');
+    }
+
     const response = await res.json();
     return response;
   } catch (error) {
@@ -96,7 +104,7 @@ export const sendAirtimeTopUps = async (
   }
 };
 
-export const getAccessToken = async () => {
+export const getAirtimeAccessToken = async () => {
   try {
     const url = 'https://auth.reloadly.com/oauth/token';
 
@@ -114,6 +122,10 @@ export const getAccessToken = async () => {
       },
       body,
     });
+
+    if (!res.ok) {
+      throw new Error('Unexpected Network Error');
+    }
 
     const response = await res.json();
     return response;

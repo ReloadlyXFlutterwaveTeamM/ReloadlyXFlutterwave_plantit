@@ -77,14 +77,14 @@ const Modal = ({ onClose, handleAgree }) => {
   );
 };
 
-const Donate = ({ user }) => {
+const Donate = ({ auth }) => {
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [details, setDetails] = useState(initialValues);
   const [amount, setAmount] = useState();
 
-  const { email, phone_number, fullname } = user || {};
+  const { email, phone_number, fullname } = auth || {};
 
   const onChange = (e) => {
     setDetails((d) => ({ ...d, [e.target.name]: e.target.value }));
@@ -126,7 +126,7 @@ const Donate = ({ user }) => {
   const handleFlutterPayment = useFlutterwave(config);
 
   const paymentCallback = (response) => {
-    console.log(response);
+    window.console.log(response);
     closePaymentModal(); // this will close the modal programmatically
   };
 
@@ -220,7 +220,6 @@ const Donate = ({ user }) => {
             name={planting_area.name}
             onChange={onChange}
             value={details[planting_area.name]}
-            placeholder={planting_area.placeholder}
             className={hasErrors(planting_area.name) ? 'form-control is-invalid' : 'form-control'}
           >
             <option value=''>{planting_area.placeholder}</option>
@@ -248,7 +247,6 @@ const Donate = ({ user }) => {
             name={tree_type.name}
             onChange={onChange}
             value={details[tree_type.name]}
-            placeholder={tree_type.placeholder}
             className={hasErrors(tree_type.name) ? 'form-control is-invalid' : 'form-control'}
           >
             <option value=''>{tree_type.placeholder}</option>

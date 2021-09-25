@@ -18,7 +18,7 @@ const DashboardNav = ({ name = 'Unknown', handleClick }) => (
     <div className='d-flex align-items-center justify-content-between'>
       <button
         type='button'
-        className='btn btn-primary text-white rounded-pill me-4'
+        className='btn btn-sm btn-primary text-white rounded-pill me-4'
         onClick={handleClick}
       >
         Log Out

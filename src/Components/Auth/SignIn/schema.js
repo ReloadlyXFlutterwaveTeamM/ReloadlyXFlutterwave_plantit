@@ -27,7 +27,7 @@ const validation = Yup.object().shape({
   [contact.name]: Yup.string()
     .test('validate_contact', contact.requiredErrorMsg, validateContact)
     .required(contact.requiredErrorMsg),
-  [password.name]: Yup.string().required(password.requiredErrorMsg),
+  [password.name]: Yup.string().min(8, password.minErrorMsg).required(password.requiredErrorMsg),
 });
 
 export { initialValues, validation };

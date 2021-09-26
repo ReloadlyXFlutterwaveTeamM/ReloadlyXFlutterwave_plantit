@@ -15,6 +15,7 @@ export default {
       placeholder: 'Type your password',
       requiredErrorMsg: 'A password is required',
       validPasswordMsg: 'A valid password is required',
+      minErrorMsg: 'A minimum of 8 characters is required',
     },
   },
 };

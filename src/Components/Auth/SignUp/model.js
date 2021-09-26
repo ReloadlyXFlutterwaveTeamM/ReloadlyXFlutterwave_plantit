@@ -6,6 +6,7 @@ export default {
       label: 'Full Name',
       placeholder: 'Enter your name',
       requiredErrorMsg: 'A full name is required',
+      minErrorMsg: 'A minimum of 3 characters is required',
     },
     email: {
       name: 'email',
@@ -27,6 +28,7 @@ export default {
       placeholder: 'Type your password',
       requiredErrorMsg: 'A password is required',
       validPasswordMsg: 'A valid password is required',
+      minErrorMsg: 'A minimum of 8 characters is required',
     },
     agree: {
       name: 'agree',

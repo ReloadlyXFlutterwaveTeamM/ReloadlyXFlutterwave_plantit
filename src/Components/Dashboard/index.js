@@ -1,6 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { contexts } from 'Store';
+import { getNewsArticles } from 'Adapters';
 
 import Articles from '../Articles';
 import Partners from '../Partners';
@@ -22,28 +23,26 @@ const partners = [
   },
 ];
 
-const articles = [
-  {
-    title: 'Climate Change: What You Need to Know [VIDEO 1]',
-    description: 'Climate change is generally defined as a significant...',
-    link: 'https://www.bbc.com/',
-  },
-  {
-    title: 'Climate Change: What You Need to Know [VIDEO 2]',
-    description: 'Climate change is generally defined as a significant...',
-    link: 'https://www.bbc.com/',
-  },
-  {
-    title: 'Climate Change: What You Need to Know [VIDEO 3]',
-    description: 'Climate change is generally defined as a significant...',
-    link: 'https://www.bbc.com/',
-  },
-];
-
 const { AuthContext } = contexts;
 
 const Dashboard = () => {
   const { state } = useContext(AuthContext);
+
+  const [articles, setArticles] = useState([]);
+
+  useEffect(() => {
+    const getArticles = async () => {
+      try {
+        const response = await getNewsArticles();
+        const { articles: fetchedArticles } = response || {};
+
+        setArticles(fetchedArticles);
+      } catch (error) {
+        window.console.error(error.message);
+      }
+    };
+    getArticles();
+  }, []);
 
   return (
     <div className='container'>

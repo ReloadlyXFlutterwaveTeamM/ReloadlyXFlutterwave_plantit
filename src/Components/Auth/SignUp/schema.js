@@ -41,8 +41,8 @@ const validation = Yup.object().shape({
   [phone_number.name]: Yup.string()
     .test('validate_phone', phone_number.requiredErrorMsg, validatePhone)
     .required(phone_number.requiredErrorMsg),
-  [password.name]: Yup.string().required(password.requiredErrorMsg),
-  [fullname.name]: Yup.string().required(fullname.requiredErrorMsg),
+  [password.name]: Yup.string().min(8, password.minErrorMsg).required(password.requiredErrorMsg),
+  [fullname.name]: Yup.string().min(3, fullname.minErrorMsg).required(fullname.requiredErrorMsg),
   [agree.name]: Yup.boolean()
     .oneOf([true], agree.requiredErrorMsg)
     .required(agree.requiredErrorMsg),

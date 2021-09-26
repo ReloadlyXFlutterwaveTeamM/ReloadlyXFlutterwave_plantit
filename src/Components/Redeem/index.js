@@ -163,8 +163,6 @@ const Redeem = () => {
     }
   };
 
-  console.log('isRedeemable', isRedeemable);
-
   return (
     <div className='container'>
       <div className='d-flex flex-column'>
@@ -197,7 +195,7 @@ const Redeem = () => {
                     className='col-6 btn btn-sm btn-primary text-white'
                     onClick={() => handleButtonClick(AIRTIME_TOPSUPS)}
                   >
-                    {isRedeemable ? 'Redeem' : 'Earn more points to redeem'}
+                    {isRedeemable ? 'Earn more points to redeem' : 'Redeem'}
                   </button>
                 </div>
               </div>
@@ -223,7 +221,7 @@ const Redeem = () => {
                     onClick={() => handleButtonClick(GIFT_CARDS)}
                     className='col-6 btn btn-sm btn-primary text-white'
                   >
-                    {isRedeemable ? 'Redeem' : 'Earn more points to redeem'}
+                    {isRedeemable ? 'Earn more points to redeem' : 'Redeem'}
                   </button>
                 </div>
               </div>
@@ -249,7 +247,7 @@ const Redeem = () => {
                     onClick={() => handleButtonClick(DATA_BUNDLES)}
                     className='col-6 btn btn-sm btn-primary text-white'
                   >
-                    Redeem
+                    {isRedeemable ? 'Earn more points to redeem' : 'Redeem'}
                   </button>
                 </div>
               </div>

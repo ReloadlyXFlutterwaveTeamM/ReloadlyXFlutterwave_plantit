@@ -9,3 +9,4 @@ export {
   getAllGiftCardProducts,
   getGiftCardAccessToken,
 };
+export { default as getNewsArticles } from './Articles';

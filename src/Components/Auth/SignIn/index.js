@@ -32,7 +32,10 @@ const SignIn = () => {
 
   const signin = async (values) => {
     try {
-      dispatch({ type: SET_AUTH, payload: { ...values, fullname: 'Lutaaya Brian Ivan' } });
+      dispatch({
+        type: SET_AUTH,
+        payload: { ...values, fullname: 'Lutaaya Brian Ivan', email: 'lutbrianivan@gmail.com' },
+      });
       setErrors({});
       setIsSubmitting(false);
       setDetails(initialValues);

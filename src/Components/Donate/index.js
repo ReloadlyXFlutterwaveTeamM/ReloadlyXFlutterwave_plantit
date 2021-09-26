@@ -77,14 +77,14 @@ const Modal = ({ onClose, handleAgree }) => {
   );
 };
 
-const Donate = ({ auth }) => {
+const Donate = ({ user }) => {
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [details, setDetails] = useState(initialValues);
   const [amount, setAmount] = useState();
 
-  const { email, phone_number, fullname } = auth || {};
+  const { email: user_email, phone: user_phone, name: user_name } = user || {};
 
   const onChange = (e) => {
     setDetails((d) => ({ ...d, [e.target.name]: e.target.value }));
@@ -112,9 +112,9 @@ const Donate = ({ auth }) => {
     currency: 'NGN',
     payment_options: 'card,mobilemoney,ussd',
     customer: {
-      email,
-      name: fullname,
-      phonenumber: phone_number,
+      email: user_email,
+      name: user_name,
+      phonenumber: user_phone,
     },
     customizations: {
       title: 'Plant It! Donation',

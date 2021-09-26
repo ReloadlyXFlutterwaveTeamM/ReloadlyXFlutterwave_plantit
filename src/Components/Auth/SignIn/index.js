@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { contexts, types } from 'Store';
+import { signInUser } from 'Adapters';
 
 import model from './model';
 import ThirdParty from '../ThirdParty';
@@ -12,7 +13,7 @@ const { SET_AUTH } = types;
 
 const {
   formId,
-  fields: { contact, password },
+  fields: { email, password },
 } = model;
 
 const SignIn = () => {
@@ -32,16 +33,20 @@ const SignIn = () => {
 
   const signin = async (values) => {
     try {
+      const response = await signInUser(values);
+      localStorage.setItem('USER_TOKEN', response.token);
       dispatch({
         type: SET_AUTH,
-        payload: { ...values, fullname: 'Lutaaya Brian Ivan', email: 'lutbrianivan@gmail.com' },
+        payload: { ...response },
       });
+
       setErrors({});
       setIsSubmitting(false);
       setDetails(initialValues);
       push('/dashboard');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));
+      setIsSubmitting(false);
     }
   };
 
@@ -99,21 +104,21 @@ const SignIn = () => {
                 className='mt-4 w-100 needs-validation'
               >
                 <div className='mb-3'>
-                  <label className='form-label' htmlFor='contact'>
-                    {contact.label}
+                  <label className='form-label' htmlFor='email'>
+                    {email.label}
                   </label>
 
                   <input
                     type='text'
-                    id={contact.name}
-                    name={contact.name}
+                    id={email.name}
+                    name={email.name}
                     onChange={onChange}
-                    value={details[contact.name]}
-                    placeholder={contact.placeholder}
-                    className={hasErrors(contact.name) ? 'form-control is-invalid' : 'form-control'}
+                    value={details[email.name]}
+                    placeholder={email.placeholder}
+                    className={hasErrors(email.name) ? 'form-control is-invalid' : 'form-control'}
                   />
 
-                  <div className='invalid-feedback'>{errors[contact.name]}</div>
+                  <div className='invalid-feedback'>{errors[email.name]}</div>
                 </div>
 
                 <div className='mb-3'>
@@ -140,7 +145,7 @@ const SignIn = () => {
                   )}
                 </div>
 
-                <div className='d-grid gap-2'>
+                <div className='d-grid gap-2 mb-3'>
                   <button
                     type='submit'
                     disabled={isSubmitting}
@@ -149,6 +154,8 @@ const SignIn = () => {
                     Sign in
                   </button>
                 </div>
+
+                <div className='text-danger text-center small mb3'>{errors.onSubmit}</div>
               </form>
 
               <ThirdParty />

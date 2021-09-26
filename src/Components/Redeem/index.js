@@ -27,10 +27,7 @@ const Redeem = () => {
     airtime_access_token,
     gift_card_access_token,
     points: redeemable_points,
-    phone_number: recipient_contact,
-    country_code: recipient_country_code,
-    fullname: recipient_name,
-    email: recipient_email,
+    user: { phone: recipient_contact, name: recipient_name, email: recipient_email },
   } = state || {};
 
   const [selected, setSelected] = useState('');
@@ -40,6 +37,8 @@ const Redeem = () => {
   const [maximum, setMaximum] = useState(100);
 
   const [isRedeemable, setIsRedeemable] = useState(false);
+
+  const recipient_country_code = 'NG';
 
   const handleSendAirtime = async ({ amount = 100 }) => {
     try {

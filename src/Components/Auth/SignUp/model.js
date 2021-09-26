@@ -16,7 +16,7 @@ export default {
       validEmailMsg: 'A valid email is required',
     },
     phone_number: {
-      name: 'phone_number',
+      name: 'phone',
       label: 'Phone number',
       placeholder: 'Type your phone number',
       requiredErrorMsg: 'A valid phone number is required',
@@ -30,8 +30,8 @@ export default {
       validPasswordMsg: 'A valid password is required',
       minErrorMsg: 'A minimum of 8 characters is required',
     },
-    agree: {
-      name: 'agree',
+    terms: {
+      name: 'terms',
       requiredErrorMsg: 'You need to agree to the terms and conditions',
     },
   },

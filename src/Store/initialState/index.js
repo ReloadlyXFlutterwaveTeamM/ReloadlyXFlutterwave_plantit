@@ -1,8 +1,11 @@
 export const authInitialState = {
-  fullname: '',
-  email: '',
-  phone_number: '',
-  country_code: '',
+  user: {
+    id: '',
+    name: '',
+    phone: '',
+    email: '',
+  },
+  token: '',
   airtime_access_token: '',
   gift_card_access_token: '',
   points: 1,

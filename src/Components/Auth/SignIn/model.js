@@ -1,13 +1,12 @@
 export default {
   formId: 'sign_in_form',
   fields: {
-    contact: {
-      name: 'contact',
-      label: 'E-mail or phone number',
-      placeholder: 'Type your e-mail or phone number',
-      requiredErrorMsg: 'A valid email or phone number is required',
+    email: {
+      name: 'email',
+      label: 'E-mail',
+      placeholder: 'Enter your e-mail',
+      requiredErrorMsg: 'A valid email is required',
       validEmailMsg: 'A valid email is required',
-      validPhoneMsg: 'A valid phone number is required',
     },
     password: {
       name: 'password',

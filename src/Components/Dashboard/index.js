@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { contexts } from 'Store';
-import { getNewsArticles } from 'Adapters';
 
 import Articles from '../Articles';
 import Partners from '../Partners';
@@ -25,24 +24,10 @@ const partners = [
 
 const { AuthContext } = contexts;
 
-const Dashboard = () => {
-  const { state } = useContext(AuthContext);
-
-  const [articles, setArticles] = useState([]);
-
-  useEffect(() => {
-    const getArticles = async () => {
-      try {
-        const response = await getNewsArticles();
-        const { articles: fetchedArticles } = response || {};
-
-        setArticles(fetchedArticles);
-      } catch (error) {
-        window.console.error(error.message);
-      }
-    };
-    getArticles();
-  }, []);
+const Dashboard = ({ articles }) => {
+  const {
+    state: { user },
+  } = useContext(AuthContext);
 
   return (
     <div className='container'>
@@ -56,7 +41,7 @@ const Dashboard = () => {
         </div>
 
         <div className='col-md-5 col-lg-4 mt-2 mt-md-0'>
-          <Donate auth={state} />
+          <Donate user={user} />
         </div>
       </div>
     </div>

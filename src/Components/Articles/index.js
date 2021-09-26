@@ -9,7 +9,11 @@ const Articles = ({ articles }) => (
       {articles.map((article) => {
         const { title, description, url } = article;
         return (
-          <div className='card text-dark bg-white mb-3 mx-2' style={{ minWidth: '18rem' }}>
+          <div
+            key={title}
+            className='card text-dark bg-white mb-3 mx-2'
+            style={{ minWidth: '18rem' }}
+          >
             <div className='card-body'>
               <h5 className='card-title'>{title}</h5>
               <p className='card-text'>{_.truncate(description, { length: 100 })}</p>

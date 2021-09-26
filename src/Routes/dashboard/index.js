@@ -1,9 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 
 import { Dashboard, Locations, Redeem } from 'Components';
-import { Navigation } from 'Commons';
+import { getNewsArticles } from 'Adapters';
 import { contexts, types } from 'Store';
+import { Navigation } from 'Commons';
 
 const { AuthContext } = contexts;
 const { REMOVE_AUTH } = types;
@@ -11,26 +12,45 @@ const { REMOVE_AUTH } = types;
 const { DashboardNav } = Navigation;
 
 const DashboardRoutes = () => {
-  const { path } = useRouteMatch();
   const { push } = useHistory();
+  const { path } = useRouteMatch();
   const { state, dispatch } = useContext(AuthContext);
+
+  const [articles, setArticles] = useState([]);
 
   const handleLogout = () => {
     dispatch({ type: REMOVE_AUTH });
     push('/');
   };
 
-  const { fullname } = state || {};
+  const { name } = state || {};
 
   useEffect(() => {
-    if (!fullname) {
-      push('/');
+    const token = localStorage.getItem('USER_TOKEN');
+    if (!token) {
+      // push('/');
+      // Logout out user
     }
+  }, []);
+
+  useEffect(() => {
+    const getArticles = async () => {
+      try {
+        const response = await getNewsArticles();
+        const { articles: fetchedArticles } = response || {};
+
+        setArticles(fetchedArticles);
+      } catch (error) {
+        window.console.error(error.message);
+      }
+    };
+    getArticles();
   }, []);
 
   return (
     <>
-      <DashboardNav handleClick={handleLogout} name={fullname} />
+      <DashboardNav handleClick={handleLogout} name={name} />
+
       <div id='dashboard-container'>
         <Switch>
           <Route path={`${path}/locations`}>
@@ -42,7 +62,7 @@ const DashboardRoutes = () => {
           </Route>
 
           <Route path={`${path}/`}>
-            <Dashboard />
+            <Dashboard articles={articles} />
           </Route>
         </Switch>
       </div>

@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import { RiVisaLine, RiMastercardFill } from 'react-icons/ri';
 import { GrAmex } from 'react-icons/gr';
 import * as bootstrap from 'bootstrap';
 
-import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
+import { saveTransactionDetails } from 'Adapters';
+import { Alert } from 'Commons';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -109,25 +111,33 @@ const Donate = ({ user }) => {
     public_key: process.env.REACT_APP_FLUTTERWAVE_PUBLIC_KEY,
     tx_ref: `PLANTIT-${new Date().getTime()}`,
     amount,
-    currency: 'NGN',
+    currency: 'USD',
     payment_options: 'card,mobilemoney,ussd',
     customer: {
-      email: user_email,
-      name: user_name,
-      phonenumber: user_phone,
+      email: user_email || 'lutbrianivan@gmail.com',
+      name: user_name || 'Lutaaya Brian Ivan',
+      phonenumber: user_phone || '0789566944',
     },
     customizations: {
       title: 'Plant It! Donation',
       description: `Donation for ${details[number_of_trees.name]} trees`,
-      logo: 'https://st2.depositphotos.com/4403291/7418/v/450/depositphotos_74189661-stock-illustration-online-shop-log.jpg',
+      logo: 'https://plantit.netlify.app/assets/logos/plantit_green.png',
     },
   };
 
   const handleFlutterPayment = useFlutterwave(config);
 
-  const paymentCallback = (response) => {
-    // window.console.log(response);
-    localStorage.setItem('Response', response);
+  const paymentCallback = async (response) => {
+    await saveTransactionDetails(response);
+
+    const { status } = response || {};
+
+    if (status !== 'success') {
+      Alert('success', 'An error has occurred, donation not complete');
+    } else {
+      setDetails(initialValues);
+      Alert('success', 'Donation completed successfully');
+    }
     closePaymentModal(); // this will close the modal programmatically
   };
 
@@ -158,7 +168,6 @@ const Donate = ({ user }) => {
 
       setErrors({});
       setIsSubmitting(false);
-      setDetails(initialValues);
     } catch (error) {
       const { inner } = error || {};
 

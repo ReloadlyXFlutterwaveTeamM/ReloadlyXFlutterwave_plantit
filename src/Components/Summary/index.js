@@ -7,7 +7,7 @@ const Summary = ({ points = 1, number_of_trees = 0, number_of_locations = 0 }) =
     <div className='col-md-6 p-2 pb-4 d-flex flex-column position-relative'>
       <div className='text-muted small fw-light'>Congratulations</div>
 
-      <h5>Level 2 superhero</h5>
+      <h5>Level 1: Starter</h5>
 
       <div className='text-muted small'>
         You have planted <span className='text-primary fw-bold'>{number_of_trees}</span> trees in{' '}

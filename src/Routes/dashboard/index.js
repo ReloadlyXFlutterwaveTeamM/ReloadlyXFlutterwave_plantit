@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 
 import { Dashboard, Locations, Redeem } from 'Components';
-import { getNewsArticles } from 'Adapters';
+import { getNewsArticles, checkUserStatus, signOutUser } from 'Adapters';
 import { contexts, types } from 'Store';
 import { Navigation } from 'Commons';
 
 const { AuthContext } = contexts;
-const { REMOVE_AUTH } = types;
+const { REMOVE_AUTH, SET_AUTH } = types;
 
 const { DashboardNav } = Navigation;
 
@@ -18,7 +18,9 @@ const DashboardRoutes = () => {
 
   const [articles, setArticles] = useState([]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await signOutUser();
+
     dispatch({ type: REMOVE_AUTH });
     push('/');
   };
@@ -27,15 +29,22 @@ const DashboardRoutes = () => {
     user: { name },
   } = state || {};
 
-  // useEffect(() => {
-  //   const checkStatus = async () => {
-  //     const response = await checkUserStatus()
-  //     try {
-  //     } catch (error) {
-  //       window.console.error('Error', error.message);
-  //     }
-  //   };
-  // }, []);
+  const handleStatusCheck = (user) => {
+    dispatch({ type: SET_AUTH, payload: { user } });
+  };
+
+  useEffect(() => {
+    const checkStatus = async () => {
+      try {
+        await checkUserStatus(handleStatusCheck);
+      } catch (error) {
+        window.console.error('Error', error.message);
+        push('/');
+      }
+    };
+
+    checkStatus();
+  }, []);
 
   useEffect(() => {
     const getArticles = async () => {

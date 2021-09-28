@@ -15,7 +15,7 @@ const {
   fields: { tree_type, planting_area, number_of_trees },
 } = model;
 
-const TREE_COST = 2;
+const TREE_COST = 4;
 
 const TREE_TYPES = [
   { name: 'Mahogany', value: 'Mahogany' },

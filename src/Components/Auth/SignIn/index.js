@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 
 import { contexts, types } from 'Store';
 import { signInUser } from 'Adapters';
+import { Alert } from 'Commons';
 
 import model from './model';
 import ThirdParty from '../ThirdParty';
@@ -34,7 +35,7 @@ const SignIn = () => {
   const signin = async (values) => {
     try {
       const response = await signInUser(values);
-      const { user } = response;
+      const { user, message } = response;
       dispatch({
         type: SET_AUTH,
         payload: { user },
@@ -43,6 +44,8 @@ const SignIn = () => {
       setErrors({});
       setIsSubmitting(false);
       setDetails(initialValues);
+
+      Alert('success', message);
       push('/dashboard');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));

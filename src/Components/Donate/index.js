@@ -20,19 +20,18 @@ const TREE_COST = 2;
 const TREE_TYPES = [
   { name: 'Mahogany', value: 'Mahogany' },
   { name: 'Moringa', value: 'Moringa' },
-  { name: 'Ube', value: 'Ube' },
-  { name: 'Light Bosse', value: 'Light Bosse' },
+  { name: 'Sycamore', value: 'Sycamore' },
+  { name: 'Gmelina', value: 'Gmelina' },
   { name: 'Yohimbe', value: 'Yohimbe' },
-  { name: 'African Corkwood Tree', value: 'African Corkwood Tree' },
 ];
 
 const PLANTING_AREAS = [
-  { name: 'Kaduna', value: 'Kaduna' },
-  { name: 'Zaria', value: 'Zaria' },
-  { name: 'Yelwa', value: 'Yelwa' },
-  { name: 'Gusau', value: 'Gusau' },
-  { name: 'Kano', value: 'Kano' },
-  { name: 'Bauchi', value: 'Bauchi' },
+  { name: 'Kano', value: 'Kano', coordinates: [8.592, 12.0022] },
+  { name: 'Zaria', value: 'Zaria', coordinates: [7.7199, 11.0855] },
+  { name: 'Yelwa', value: 'Yelwa', coordinates: [4.7433, 10.837] },
+  { name: 'Bauchi', value: 'Bauchi', coordinates: [9.8237, 10.301] },
+  { name: 'Jigawa', value: 'Jigawa', coordinates: [9.5616, 12.228] },
+  { name: 'Maiduguri', value: 'Maiduguri', coordinates: [13.151, 11.8311] },
 ];
 
 const Modal = ({ onClose, handleAgree }) => {

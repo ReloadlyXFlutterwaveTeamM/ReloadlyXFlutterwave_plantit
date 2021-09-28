@@ -2,7 +2,7 @@ const SERVER_API = process.env.REACT_APP_SERVER_API;
 
 export const registerUser = async (user) => {
   try {
-    const url = `${SERVER_API}signup`;
+    const url = `${SERVER_API}api/signup`;
 
     const body = JSON.stringify({
       ...user,
@@ -31,7 +31,7 @@ export const registerUser = async (user) => {
 
 export const signInUser = async ({ email, password }) => {
   try {
-    const url = `${SERVER_API}signin`;
+    const url = `${SERVER_API}api/signin`;
 
     const body = JSON.stringify({
       email,

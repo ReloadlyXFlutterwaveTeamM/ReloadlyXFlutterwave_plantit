@@ -86,6 +86,15 @@ const SignUp = () => {
           <div className='mt-2 fw-light'>
             This is to help us stay in touch with you and give you a place on our table.
           </div>
+
+          <div>
+            <img
+              className='img-fluid'
+              title='Digital Greenness'
+              alt='Digital Greenness'
+              src={`${process.env.PUBLIC_URL}/assets/images/smart_green.png`}
+            />
+          </div>
         </div>
 
         <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>

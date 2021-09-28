@@ -83,6 +83,15 @@ const SignIn = () => {
           <h1>You’re back!</h1>
           <h1>We’re glad.</h1>
           <div className='mt-2 fw-light'>You have some stuff to do here, right?</div>
+
+          <div>
+            <img
+              className='img-fluid'
+              title='Digital Greenness'
+              alt='Digital Greenness'
+              src={`${process.env.PUBLIC_URL}/assets/images/smart_green.png`}
+            />
+          </div>
         </div>
 
         <div className='col-12 col-sm-7 d-flex flex-column justify-content-center align-items-center'>

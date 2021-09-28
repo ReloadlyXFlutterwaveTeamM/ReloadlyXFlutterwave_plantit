@@ -171,7 +171,8 @@ const Redeem = () => {
         </div>
 
         <div className='mt-2'>
-          You currently have <span className='fw-bold text-primary'>300</span> points.
+          You currently have <span className='fw-bold text-primary'>{redeemable_points}</span>{' '}
+          points.
         </div>
 
         <div className='row row-cols-1 row-cols-md-3 g-4 mt-4'>

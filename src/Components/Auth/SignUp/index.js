@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { contexts, types } from 'Store';
-import { registerUser } from 'Adapters';
+import { signUpUser } from 'Adapters';
 
 import model from './model';
 import ThirdParty from '../ThirdParty';
@@ -13,7 +13,7 @@ const { SET_AUTH } = types;
 
 const {
   formId,
-  fields: { email, phone_number, password, fullname, terms },
+  fields: { email, phone_number, password, name, terms },
 } = model;
 
 const SignUp = () => {
@@ -37,9 +37,10 @@ const SignUp = () => {
 
   const register = async (values) => {
     try {
-      const response = await registerUser(values);
+      const response = await signUpUser(values);
+      const { user } = response || {};
 
-      dispatch({ type: SET_AUTH, payload: { ...response } });
+      dispatch({ type: SET_AUTH, payload: { user } });
 
       setErrors({});
       setIsSubmitting(false);
@@ -111,23 +112,21 @@ const SignUp = () => {
                 className='mt-4 w-100 needs-validation'
               >
                 <div className='mb-3'>
-                  <label className='form-label' htmlFor={fullname.name}>
-                    {fullname.label}
+                  <label className='form-label' htmlFor={name.name}>
+                    {name.label}
                   </label>
 
                   <input
                     type='text'
-                    id={fullname.name}
-                    name={fullname.name}
+                    id={name.name}
+                    name={name.name}
                     onChange={onChange}
-                    value={details[fullname.name]}
-                    placeholder={fullname.placeholder}
-                    className={
-                      hasErrors(fullname.name) ? 'form-control is-invalid' : 'form-control'
-                    }
+                    value={details[name.name]}
+                    placeholder={name.placeholder}
+                    className={hasErrors(name.name) ? 'form-control is-invalid' : 'form-control'}
                   />
 
-                  <div className='invalid-feedback'>{errors[fullname.name]}</div>
+                  <div className='invalid-feedback'>{errors[name.name]}</div>
                 </div>
 
                 <div className='mb-3'>

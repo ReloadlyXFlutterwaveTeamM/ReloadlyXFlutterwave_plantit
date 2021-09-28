@@ -23,15 +23,19 @@ const DashboardRoutes = () => {
     push('/');
   };
 
-  const { name } = state || {};
+  const {
+    user: { name },
+  } = state || {};
 
-  useEffect(() => {
-    const token = localStorage.getItem('USER_TOKEN');
-    if (!token) {
-      // push('/');
-      // Logout out user
-    }
-  }, []);
+  // useEffect(() => {
+  //   const checkStatus = async () => {
+  //     const response = await checkUserStatus()
+  //     try {
+  //     } catch (error) {
+  //       window.console.error('Error', error.message);
+  //     }
+  //   };
+  // }, []);
 
   useEffect(() => {
     const getArticles = async () => {

@@ -3,14 +3,14 @@ import * as Yup from 'yup';
 import model from './model';
 
 const { fields } = model;
-const { email, phone_number, password, fullname, terms } = fields;
+const { email, phone_number, password, name, terms } = fields;
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
 const phoneRegex = /^[0-9]{10}$/;
 
 const initialValues = {
   [password.name]: '',
-  [fullname.name]: '',
+  [name.name]: '',
   [terms.name]: true,
   [email.name]: '',
   [phone_number.name]: '',
@@ -42,7 +42,7 @@ const validation = Yup.object().shape({
     .test('validate_phone', phone_number.requiredErrorMsg, validatePhone)
     .required(phone_number.requiredErrorMsg),
   [password.name]: Yup.string().min(8, password.minErrorMsg).required(password.requiredErrorMsg),
-  [fullname.name]: Yup.string().min(3, fullname.minErrorMsg).required(fullname.requiredErrorMsg),
+  [name.name]: Yup.string().min(3, name.minErrorMsg).required(name.requiredErrorMsg),
   [terms.name]: Yup.boolean()
     .oneOf([true], terms.requiredErrorMsg)
     .required(terms.requiredErrorMsg),

@@ -1,8 +1,8 @@
 export default {
   formId: 'sign_in_form',
   fields: {
-    fullname: {
-      name: 'fullname',
+    name: {
+      name: 'name',
       label: 'Full Name',
       placeholder: 'Enter your name',
       requiredErrorMsg: 'A full name is required',

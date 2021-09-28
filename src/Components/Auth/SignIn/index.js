@@ -34,10 +34,10 @@ const SignIn = () => {
   const signin = async (values) => {
     try {
       const response = await signInUser(values);
-      localStorage.setItem('USER_TOKEN', response.token);
+      const { user } = response;
       dispatch({
         type: SET_AUTH,
-        payload: { ...response },
+        payload: { user },
       });
 
       setErrors({});

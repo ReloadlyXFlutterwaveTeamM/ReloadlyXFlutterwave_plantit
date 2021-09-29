@@ -13,7 +13,7 @@ import { precacheAndRoute, createHandlerBoundToURL, matchPrecache } from 'workbo
 import { registerRoute, setDefaultHandler, setCatchHandler } from 'workbox-routing';
 import { StaleWhileRevalidate, NetworkFirst, NetworkOnly } from 'workbox-strategies';
 
-const revision = 1;
+const revision = 2;
 const preCacheList = [
   '/manifest.json',
   '/assets/icons/16x16.png',
@@ -22,6 +22,19 @@ const preCacheList = [
   '/assets/icons/512x512.png',
   '/assets/icons/favicon.ico',
   '/assets/icons/apple-touch-icon.png',
+  '/assets/images/airtime_topups.png',
+  '/assets/images/data_bundles.png',
+  '/assets/images/gardening_bro.png',
+  '/assets/images/gift_cards.png',
+  '/assets/images/redeem_bg.png',
+  '/assets/images/smart_green.png',
+  '/assets/logos/flutterwave_logo.png',
+  '/assets/logos/plantit_black.png',
+  '/assets/logos/plantit_green.png',
+  '/assets/logos/plantit_sm_black.png',
+  '/assets/logos/plantit_sm_green.png',
+  '/assets/logos/plantit_white.png',
+  '/assets/logos/reloadly_logo.png',
 ].map((url) => ({ url, revision }));
 
 skipWaiting();

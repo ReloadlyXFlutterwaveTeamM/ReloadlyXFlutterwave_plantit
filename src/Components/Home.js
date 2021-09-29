@@ -13,9 +13,7 @@ const Home = () => (
         <div>
           <h1 className='text-primary'>You can help save the planet</h1>
 
-          <div>
-            With as low as US$0.5 per month, you can plant 50 trees in any part of the world.
-          </div>
+          <div>With as low as US$4, you can plant a tree in any part of Nigeria.</div>
 
           <div>
             <ul>
@@ -23,9 +21,9 @@ const Home = () => (
 
               <li>Choose the type of tree to plant </li>
 
-              <li>Pay for the tree</li>
+              <li>Complete the payment</li>
 
-              <li>Redeem airtime is you plant enougn trees</li>
+              <li>Redeem airtime and data bundles when you plant at least 10 trees</li>
             </ul>
           </div>
 

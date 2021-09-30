@@ -24,7 +24,7 @@ const Routes = () => {
   return (
     <>
       <ToastContainer className='p-3' position='top-end' style={{ zIndex: 2000 }}>
-        <Toast show={show} delay={3500} autohide onClose={handleClose}>
+        <Toast show={show} delay={6000} autohide onClose={handleClose}>
           <Toast.Header closeButton>
             <img
               src={`${process.env.PUBLIC_URL}/assets/icons/32x32.png`}

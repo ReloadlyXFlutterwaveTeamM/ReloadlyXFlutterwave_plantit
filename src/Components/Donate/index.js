@@ -148,23 +148,25 @@ const Donate = ({ user }) => {
         date_of_donation: new Date().toLocaleDateString(),
       });
 
-      const { status } = response || {};
+      closePaymentModal();
 
+      const { status } = response || {};
       if (status !== 'successful') {
         const message = 'An error has occurred, donation not complete';
         alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
       } else {
-        const message = 'Donation completed successfully';
+        setDetails(initialValues);
+        const message = 'Donation payment is complete';
         alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
       }
-      setDetails(initialValues);
-      closePaymentModal(); // this will close the modal programmatically
     } catch (error) {
       alertDispatch({ type: SET_ALERT, payload: { message: error.message, show: true } });
     }
   };
 
-  const paymentClose = () => {};
+  const paymentClose = () => {
+    setDetails(initialValues);
+  };
 
   const handlePayment = () => {
     handleFlutterPayment({

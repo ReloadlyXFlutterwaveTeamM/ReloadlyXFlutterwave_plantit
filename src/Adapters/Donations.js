@@ -17,7 +17,7 @@ export const saveDonation = async (donation) => {
 export const saveTransaction = async (transaction) => {
   try {
     const { transaction_id } = transaction;
-    await setDoc(doc(DB, 'transactions', transaction_id), {
+    await setDoc(doc(DB, 'transactions', transaction_id.toString()), {
       ...transaction,
     });
   } catch (error) {

@@ -13,5 +13,6 @@ export const authInitialState = {
 
 export const alertInitialState = {
   message: '',
-  variant: '',
+  show: false,
+  variant: 'success',
 };

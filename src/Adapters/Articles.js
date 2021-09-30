@@ -2,13 +2,14 @@ const NEWS_API_KEY = process.env.REACT_APP_NEWS_API;
 
 const getNewsArticles = async () => {
   try {
-    const url = `https://newsapi.org/v2/everything?q=climate+change`;
+    const url = `https://bing-news-search1.p.rapidapi.com/news/search?freshness=Day&textFormat=Raw&safeSearch=Strict&q=climatechnage`;
 
     const res = await fetch(url, {
       method: 'GET',
       headers: {
-        Authorization: `BEARER ${NEWS_API_KEY}`,
-        Accept: 'application/json',
+        'x-rapidapi-host': 'bing-news-search1.p.rapidapi.com',
+        'x-rapidapi-key': NEWS_API_KEY,
+        'x-bingapis-sdk': 'true',
       },
     });
 

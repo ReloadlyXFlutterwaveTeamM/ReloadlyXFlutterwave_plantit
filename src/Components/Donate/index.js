@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useFlutterwave, closePaymentModal } from 'flutterwave-react-v3';
 import { RiVisaLine, RiMastercardFill } from 'react-icons/ri';
 import { GrAmex } from 'react-icons/gr';
 import * as bootstrap from 'bootstrap';
 
 import { saveDonation, saveTransaction } from 'Adapters';
-import { Alert } from 'Commons';
+import { contexts, types } from 'Store';
 
 import model from './model';
 import { validation, initialValues } from './schema';
@@ -33,6 +33,9 @@ const PLANTING_AREAS = [
   { name: 'Jigawa', value: 'Jigawa', coordinates: [9.5616, 12.228] },
   { name: 'Maiduguri', value: 'Maiduguri', coordinates: [13.151, 11.8311] },
 ];
+
+const { SET_ALERT } = types;
+const { AlertContext } = contexts;
 
 const Modal = ({ onClose, handleAgree }) => {
   const onAgree = () => {
@@ -79,6 +82,8 @@ const Modal = ({ onClose, handleAgree }) => {
 };
 
 const Donate = ({ user }) => {
+  const { dispatch: alertDispatch } = useContext(AlertContext);
+
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -127,30 +132,36 @@ const Donate = ({ user }) => {
   const handleFlutterPayment = useFlutterwave(config);
 
   const paymentCallback = async (response) => {
-    const { transaction_id } = response || {};
-    const donation_id = `${uid}${new Date().getTime()}`;
+    try {
+      const { transaction_id } = response || {};
+      const donation_id = `${uid}${new Date().getTime()}`;
 
-    await saveTransaction({ ...response, user_id: uid });
+      await saveTransaction({ ...response, user_id: uid });
 
-    await saveDonation({
-      ...details,
-      user_id: uid,
-      donation_id,
-      transaction_id,
-      [planting_area.name]: JSON.parse(details[planting_area.name]),
-      points_earned: details[number_of_trees.name] * 2,
-      date_of_donation: new Date().toLocaleDateString(),
-    });
+      await saveDonation({
+        ...details,
+        user_id: uid,
+        donation_id,
+        transaction_id,
+        [planting_area.name]: JSON.parse(details[planting_area.name]),
+        points_earned: details[number_of_trees.name] * 2,
+        date_of_donation: new Date().toLocaleDateString(),
+      });
 
-    const { status } = response || {};
+      const { status } = response || {};
 
-    if (status !== 'successful') {
-      Alert('error', 'An error has occurred, donation not complete');
-    } else {
+      if (status !== 'successful') {
+        const message = 'An error has occurred, donation not complete';
+        alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
+      } else {
+        const message = 'Donation completed successfully';
+        alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
+      }
       setDetails(initialValues);
-      Alert('success', 'Donation completed successfully');
+      closePaymentModal(); // this will close the modal programmatically
+    } catch (error) {
+      alertDispatch({ type: SET_ALERT, payload: { message: error.message, show: true } });
     }
-    closePaymentModal(); // this will close the modal programmatically
   };
 
   const paymentClose = () => {};

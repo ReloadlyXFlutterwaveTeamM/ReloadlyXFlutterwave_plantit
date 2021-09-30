@@ -3,14 +3,13 @@ import { useHistory } from 'react-router-dom';
 
 import { contexts, types } from 'Store';
 import { signInUser } from 'Adapters';
-import { Alert } from 'Commons';
 
 import model from './model';
 import ThirdParty from '../ThirdParty';
 import { validation, initialValues } from './schema';
 
-const { AuthContext } = contexts;
-const { SET_AUTH } = types;
+const { AuthContext, AlertContext } = contexts;
+const { SET_AUTH, SET_ALERT } = types;
 
 const {
   formId,
@@ -19,7 +18,8 @@ const {
 
 const SignIn = () => {
   const { push } = useHistory();
-  const { dispatch } = useContext(AuthContext);
+  const { dispatch: authDispatch } = useContext(AuthContext);
+  const { dispatch: alertDispatch } = useContext(AlertContext);
 
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
@@ -36,7 +36,7 @@ const SignIn = () => {
     try {
       const response = await signInUser(values);
       const { user, message } = response;
-      dispatch({
+      authDispatch({
         type: SET_AUTH,
         payload: { user },
       });
@@ -45,7 +45,8 @@ const SignIn = () => {
       setIsSubmitting(false);
       setDetails(initialValues);
 
-      Alert('success', message);
+      alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
+
       push('/dashboard');
     } catch (error) {
       setErrors((e) => ({ ...e, onSubmit: error.message }));

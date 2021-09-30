@@ -7,15 +7,15 @@ const Articles = ({ articles }) => (
 
     <div className='d-flex flex-row flex-nowrap overflow-auto'>
       {articles.map((article) => {
-        const { title, description, url } = article;
+        const { name, description, url } = article;
         return (
           <div
-            key={title}
+            key={name}
             className='card text-dark bg-white mb-3 mx-2'
             style={{ minWidth: '18rem' }}
           >
             <div className='card-body'>
-              <h5 className='card-title'>{title}</h5>
+              <h5 className='card-title'>{_.truncate(name, { length: 100 })}</h5>
               <p className='card-text'>{_.truncate(description, { length: 100 })}</p>
             </div>
 

@@ -53,7 +53,7 @@ const DashboardRoutes = () => {
     const getArticles = async () => {
       try {
         const response = await getNewsArticles();
-        const { articles: fetchedArticles } = response || {};
+        const { value: fetchedArticles } = response || {};
 
         setArticles(fetchedArticles);
       } catch (error) {

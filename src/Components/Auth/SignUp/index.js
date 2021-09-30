@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { signUpUser } from 'Adapters';
-import { Alert } from 'Commons';
+import { contexts, types } from 'Store';
 
 import model from './model';
 import ThirdParty from '../ThirdParty';
@@ -13,8 +13,13 @@ const {
   fields: { email, phone_number, password, name, terms },
 } = model;
 
+const { AlertContext } = contexts;
+const { SET_ALERT } = types;
+
 const SignUp = () => {
   const { push } = useHistory();
+
+  const { dispatch: alertDispatch } = useContext(AlertContext);
 
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
@@ -40,7 +45,7 @@ const SignUp = () => {
       setIsSubmitting(false);
       setDetails(initialValues);
 
-      Alert('success', message);
+      alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
 
       push('/auth/signin');
     } catch (error) {

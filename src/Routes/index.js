@@ -1,21 +1,44 @@
-import React, { useReducer } from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
+import { Toast, ToastContainer } from 'react-bootstrap';
 
 import { Home } from 'Components';
-import { contexts, initialStates, reducers } from 'Store';
+import { contexts, types } from 'Store';
 
 import AuthRoutes from './auth';
 import DashboardRoutes from './dashboard';
 
-const { authReducer } = reducers;
-const { authInitialState } = initialStates;
-const { AuthContext } = contexts;
+const { AlertContext } = contexts;
+const { SET_ALERT } = types;
 
 const Routes = () => {
-  const [authState, authDispatch] = useReducer(authReducer, authInitialState);
+  const {
+    state: { message, show },
+    dispatch: alertDispatch,
+  } = useContext(AlertContext);
+
+  const handleClose = () => {
+    alertDispatch({ type: SET_ALERT, payload: { show: false } });
+  };
 
   return (
-    <AuthContext.Provider value={{ state: authState, dispatch: authDispatch }}>
+    <>
+      <ToastContainer className='p-3' position='top-end' style={{ zIndex: 2000 }}>
+        <Toast show={show} delay={3500} autohide onClose={handleClose}>
+          <Toast.Header closeButton>
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/icons/32x32.png`}
+              className='rounded me-2'
+              alt='Plant It!'
+            />
+
+            <strong className='me-auto'>Plant It!</strong>
+          </Toast.Header>
+
+          <Toast.Body>{message}</Toast.Body>
+        </Toast>
+      </ToastContainer>
+
       <Switch>
         <Route path='/auth'>
           <AuthRoutes />
@@ -29,7 +52,7 @@ const Routes = () => {
           <Home />
         </Route>
       </Switch>
-    </AuthContext.Provider>
+    </>
   );
 };
 

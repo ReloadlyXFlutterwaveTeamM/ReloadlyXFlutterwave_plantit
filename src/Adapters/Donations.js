@@ -4,8 +4,9 @@ import { DB } from '../firebase';
 
 export const saveDonation = async (donation) => {
   try {
-    const { id } = donation;
-    await setDoc(doc(DB, 'donations', id), {
+    console.log('donation II', donation);
+    const { donation_id } = donation;
+    await setDoc(doc(DB, 'donations', donation_id), {
       ...donation,
     });
   } catch (error) {
@@ -16,13 +17,14 @@ export const saveDonation = async (donation) => {
 
 export const saveTransaction = async (transaction) => {
   try {
-    const { id } = transaction;
-    await setDoc(doc(DB, 'donations', id), {
+    console.log('transaction II', transaction);
+    const { transaction_id } = transaction;
+    await setDoc(doc(DB, 'transactions', transaction_id), {
       ...transaction,
     });
   } catch (error) {
-    window.console.error('GET TRANSACTIONS ERROR', error.message);
-    throw new Error('Error retrieving transactions');
+    window.console.error('SAVE TRANSACTIONS ERROR', error.message);
+    throw new Error('Error saving transactions');
   }
 };
 

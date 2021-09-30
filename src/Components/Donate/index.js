@@ -4,7 +4,7 @@ import { RiVisaLine, RiMastercardFill } from 'react-icons/ri';
 import { GrAmex } from 'react-icons/gr';
 import * as bootstrap from 'bootstrap';
 
-import { saveTransactionDetails } from 'Adapters';
+import { saveDonation, saveTransaction } from 'Adapters';
 import { Alert } from 'Commons';
 
 import model from './model';
@@ -85,7 +85,7 @@ const Donate = ({ user }) => {
   const [details, setDetails] = useState(initialValues);
   const [amount, setAmount] = useState();
 
-  const { email: user_email, phone: user_phone, name: user_name } = user || {};
+  const { email: user_email, phone: user_phone, name: user_name, uid } = user;
 
   const onChange = (e) => {
     setDetails((d) => ({ ...d, [e.target.name]: e.target.value }));
@@ -113,9 +113,9 @@ const Donate = ({ user }) => {
     currency: 'USD',
     payment_options: 'card,mobilemoney,ussd',
     customer: {
-      email: user_email || 'lutbrianivan@gmail.com',
-      name: user_name || 'Lutaaya Brian Ivan',
-      phonenumber: user_phone || '0789566944',
+      email: user_email,
+      name: user_name,
+      phonenumber: user_phone,
     },
     customizations: {
       title: 'Plant It! Donation',
@@ -127,12 +127,28 @@ const Donate = ({ user }) => {
   const handleFlutterPayment = useFlutterwave(config);
 
   const paymentCallback = async (response) => {
-    await saveTransactionDetails(response);
+    console.log('RESPONSE', response);
+    const { transaction_id } = response || {};
+    const donation_id = `${uid}${new Date().getTime()}`;
+
+    const transaction = await saveTransaction({ ...response, user_id: uid });
+    console.log('transaction', transaction);
+
+    const donation = await saveDonation({
+      ...details,
+      user_id: uid,
+      donation_id,
+      transaction_id,
+      [planting_area.name]: JSON.parse(details[planting_area.name]),
+      points_earned: details[number_of_trees.name] * 2,
+      date_of_donation: new Date().toLocaleDateString(),
+    });
+    console.log('Donation', donation);
 
     const { status } = response || {};
 
-    if (status !== 'success') {
-      Alert('success', 'An error has occurred, donation not complete');
+    if (status !== 'successful') {
+      Alert('error', 'An error has occurred, donation not complete');
     } else {
       setDetails(initialValues);
       Alert('success', 'Donation completed successfully');
@@ -231,11 +247,11 @@ const Donate = ({ user }) => {
             value={details[planting_area.name]}
             className={hasErrors(planting_area.name) ? 'form-control is-invalid' : 'form-control'}
           >
-            <option value=''>{planting_area.placeholder}</option>
+            <option value={JSON.stringify({})}>{planting_area.placeholder}</option>
             {PLANTING_AREAS.map((area) => {
-              const { name, value } = area;
+              const { name } = area;
               return (
-                <option key={name} value={value}>
+                <option key={name} value={JSON.stringify(area)}>
                   {name}
                 </option>
               );

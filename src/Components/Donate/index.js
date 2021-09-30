@@ -127,14 +127,12 @@ const Donate = ({ user }) => {
   const handleFlutterPayment = useFlutterwave(config);
 
   const paymentCallback = async (response) => {
-    console.log('RESPONSE', response);
     const { transaction_id } = response || {};
     const donation_id = `${uid}${new Date().getTime()}`;
 
-    const transaction = await saveTransaction({ ...response, user_id: uid });
-    console.log('transaction', transaction);
+    await saveTransaction({ ...response, user_id: uid });
 
-    const donation = await saveDonation({
+    await saveDonation({
       ...details,
       user_id: uid,
       donation_id,
@@ -143,7 +141,6 @@ const Donate = ({ user }) => {
       points_earned: details[number_of_trees.name] * 2,
       date_of_donation: new Date().toLocaleDateString(),
     });
-    console.log('Donation', donation);
 
     const { status } = response || {};
 

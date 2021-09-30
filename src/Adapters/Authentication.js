@@ -1,4 +1,9 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth';
 
 import { doc, setDoc, getDoc } from 'firebase/firestore';
 
@@ -49,24 +54,22 @@ export const signInUser = async ({ email, password }) => {
   }
 };
 
-export const checkUserStatus = async (handleUser) => {
+export const checkUserStatus = async (handleUser, handleNoUser) => {
   try {
-    const user = AUTH.currentUser;
+    onAuthStateChanged(async (user) => {
+      if (user) {
+        const { uid } = user;
 
-    if (user) {
-      const { uid } = user;
+        const docRef = doc(DB, 'users', uid);
+        const docSnap = await getDoc(docRef);
 
-      const docRef = doc(DB, 'users', uid);
-      const docSnap = await getDoc(docRef);
-
-      if (docSnap.exists()) {
-        handleUser(docSnap.data());
+        if (docSnap.exists()) {
+          handleUser(docSnap.data());
+        }
       } else {
-        throw new Error('Your account does not exist');
+        handleNoUser();
       }
-    } else {
-      throw new Error('You need to first authenticate');
-    }
+    });
   } catch (err) {
     window.console.error('AUTH STATUS ERROR', err.message);
     throw new Error('Error retrieving user status');

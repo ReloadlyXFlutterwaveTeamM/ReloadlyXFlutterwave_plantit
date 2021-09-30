@@ -33,13 +33,16 @@ const DashboardRoutes = () => {
     dispatch({ type: SET_AUTH, payload: { user } });
   };
 
+  const handleNoCheck = () => {
+    push('/');
+  };
+
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        await checkUserStatus(handleStatusCheck);
+        await checkUserStatus(handleStatusCheck, handleNoCheck);
       } catch (error) {
         window.console.error('Error', error.message);
-        push('/');
       }
     };
 

@@ -56,8 +56,7 @@ export const signInUser = async ({ email, password }) => {
 
 export const checkUserStatus = async (handleUser, handleNoUser) => {
   try {
-    onAuthStateChanged(async (user) => {
-      window.console.log('USER', user);
+    onAuthStateChanged(AUTH, async (user) => {
       if (user) {
         const { uid } = user;
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 const Modal = ({ children, modal_id, onClose, onSubmit, confirm_btn_msg, cancel_btn_msg }) => {
-  const onAgree = () => {
-    onSubmit();
+  const onAgree = async () => {
+    await onSubmit();
     onClose();
   };
 

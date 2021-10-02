@@ -2,7 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 
 import { Dashboard, Locations, Redeem } from 'Components';
-import { getNewsArticles, checkUserStatus, signOutUser, getDonations } from 'Adapters';
+import {
+  getNewsArticles,
+  checkUserStatus,
+  signOutUser,
+  getDonations,
+  getAirtimeAccessToken,
+  getGiftCardAccessToken,
+} from 'Adapters';
 import { contexts, types } from 'Store';
 import { Navigation } from 'Commons';
 
@@ -100,6 +107,23 @@ const DashboardRoutes = () => {
       }
     };
     getArticles();
+  }, []);
+
+  useEffect(() => {
+    const getTokens = async () => {
+      try {
+        const { access_token: airtime_access_token } = await getAirtimeAccessToken();
+        const { access_token: gift_card_access_token } = await getGiftCardAccessToken();
+
+        dispatch({
+          type: SET_AUTH,
+          payload: { airtime_access_token, gift_card_access_token },
+        });
+      } catch (error) {
+        window.console.log('Tokens', error.message);
+      }
+    };
+    getTokens();
   }, []);
 
   return (

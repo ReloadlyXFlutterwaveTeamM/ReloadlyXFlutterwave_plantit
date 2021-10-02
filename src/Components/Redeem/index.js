@@ -8,13 +8,14 @@ import {
   getAllGiftCardProducts,
 } from 'Adapters';
 import { Modal } from 'Commons';
-import { contexts } from 'Store';
+import { contexts, types } from 'Store';
 
 import AirtimeForm from './Airtime';
 import DataForm from './Data';
 import GiftCard from './GiftCard';
 
-const { AuthContext } = contexts;
+const { AuthContext, AlertContext } = contexts;
+const { SET_ALERT } = types;
 
 const AIRTIME_TOPSUPS = 'AIRTIME_TOPSUPS';
 const DATA_BUNDLES = 'DATA_BUNDLES';
@@ -22,6 +23,7 @@ const GIFT_CARDS = 'GIFT_CARDS';
 
 const Redeem = () => {
   const { state } = useContext(AuthContext);
+  const { dispatch: alertDispatch } = useContext(AlertContext);
 
   const {
     airtime_access_token,
@@ -51,31 +53,33 @@ const Redeem = () => {
 
       const reference = `PLANTIT-AIRTIME-${new Date().getTime()}`;
 
-      const response = await sendAirtimeTopUps(airtime_access_token, reference, amount, {
+      await sendAirtimeTopUps(airtime_access_token, reference, amount, {
         operatorId,
         recipient_contact,
         recipient_country_code,
       });
-      window.console.log('Airtime Card Response', response);
+      const message = 'Airtime top up redemption successful';
+      alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
     } catch (error) {
-      window.console.log('Error', error);
+      alertDispatch({ type: SET_ALERT, payload: { message: error.message, show: true } });
     }
   };
 
-  const handleSendData = () => {};
+  const handleSendData = async () => {};
 
   const handleSendGiftCard = async ({ product }) => {
     try {
       const reference = `PLANTIT-GIFTCARD-${new Date().getTime()}`;
 
-      const response = await orderGiftCards(gift_card_access_token, reference, product, {
+      await orderGiftCards(gift_card_access_token, reference, product, {
         recipient_name,
         recipient_email,
         recipient_country_code,
       });
-      window.console.log('Gift Card Response', response);
+      const message = 'Gift card redemption successful';
+      alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
     } catch (error) {
-      window.console.log('Error', error);
+      alertDispatch({ type: SET_ALERT, payload: { message: error.message, show: true } });
     }
   };
 
@@ -123,19 +127,19 @@ const Redeem = () => {
     setIsRedeemable(!(redeemableAmount > 0));
   }, [redeemable_points]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     switch (selected) {
       case AIRTIME_TOPSUPS:
-        handleSendAirtime(values);
+        await handleSendAirtime(values);
         return;
       case DATA_BUNDLES:
-        handleSendData(values);
+        await handleSendData(values);
         return;
       case GIFT_CARDS:
-        handleSendGiftCard(values);
+        await handleSendGiftCard(values);
         return;
       default:
-        window.console.log('Pop II');
+        window.console.log('');
     }
   };
 
@@ -161,6 +165,7 @@ const Redeem = () => {
         return <div />;
     }
   };
+  console.log('state', state);
 
   return (
     <div className='container'>
@@ -247,7 +252,7 @@ const Redeem = () => {
                     onClick={() => handleButtonClick(DATA_BUNDLES)}
                     className='col-6 btn btn-sm btn-primary text-white'
                   >
-                    {isRedeemable ? 'Earn more points to redeem' : 'Redeem'}
+                    {isRedeemable ? 'Earn more points to redeem' : 'Not yet available'}
                   </button>
                 </div>
               </div>
@@ -255,6 +260,7 @@ const Redeem = () => {
           </div>
         </div>
       </div>
+
       <Modal
         modal_id='redeem_modal'
         onClose={closeModal}

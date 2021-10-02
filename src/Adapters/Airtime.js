@@ -106,7 +106,7 @@ export const sendAirtimeTopUps = async (
 
 export const getAirtimeAccessToken = async () => {
   try {
-    const url = 'https://auth.reloadly.com/oauth/token';
+    const url = 'https://cors.bridged.cc/https://auth.reloadly.com/oauth/token';
 
     const body = JSON.stringify({
       client_id: CLIENT_ID,

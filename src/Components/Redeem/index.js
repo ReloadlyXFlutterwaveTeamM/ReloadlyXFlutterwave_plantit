@@ -165,7 +165,6 @@ const Redeem = () => {
         return <div />;
     }
   };
-  console.log('state', state);
 
   return (
     <div className='container'>

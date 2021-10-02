@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
-import { signUpUser } from 'Adapters';
+import { registerUser } from 'Adapters';
 import { contexts, types } from 'Store';
 
 import model from './model';
@@ -38,7 +38,7 @@ const SignUp = () => {
 
   const register = async (values) => {
     try {
-      const response = await signUpUser(values);
+      const response = await registerUser(values);
       const { message } = response || {};
 
       setErrors({});

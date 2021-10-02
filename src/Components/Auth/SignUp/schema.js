@@ -6,7 +6,7 @@ const { fields } = model;
 const { email, phone_number, password, name, terms } = fields;
 
 const emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
-const phoneRegex = /^[0-9]{10}$/;
+const phoneRegex = /^(\d{10}|\d{11})$/g;
 
 const initialValues = {
   [password.name]: '',
@@ -39,7 +39,7 @@ const validation = Yup.object().shape({
     .test('validate_email', email.requiredErrorMsg, validateEmail)
     .required(email.requiredErrorMsg),
   [phone_number.name]: Yup.string()
-    .test('validate_phone', phone_number.requiredErrorMsg, validatePhone)
+    .test('validate_phone', phone_number.validPhoneMsg, validatePhone)
     .required(phone_number.requiredErrorMsg),
   [password.name]: Yup.string().min(8, password.minErrorMsg).required(password.requiredErrorMsg),
   [name.name]: Yup.string().min(3, name.minErrorMsg).required(name.requiredErrorMsg),

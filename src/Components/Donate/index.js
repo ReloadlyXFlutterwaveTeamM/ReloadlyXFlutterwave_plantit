@@ -145,7 +145,6 @@ const Donate = ({ user, setRefresh }) => {
         transaction_id,
         [number_of_trees.name]: parseInt(details[number_of_trees.name], 10),
         [planting_area.name]: JSON.parse(details[planting_area.name]),
-        points_earned: details[number_of_trees.name] * 2,
         points: {
           earned: details[number_of_trees.name] * 2,
           redeemed: false,

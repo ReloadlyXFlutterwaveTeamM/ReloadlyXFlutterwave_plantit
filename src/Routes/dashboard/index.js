@@ -4,7 +4,7 @@ import { Switch, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import { Dashboard, Locations, Redeem } from 'Components';
 import {
   getNewsArticles,
-  checkUserStatus,
+  checkLoginStatus,
   signOutUser,
   getDonations,
   getAirtimeAccessToken,
@@ -34,21 +34,21 @@ const DashboardRoutes = () => {
   };
 
   const {
-    user: { name, uid },
+    user: { name, id },
   } = state || {};
 
-  const handleStatusCheck = (user) => {
-    dispatch({ type: SET_AUTH, payload: { user } });
+  const handleAuthCheck = (auth) => {
+    dispatch({ type: SET_AUTH, payload: { ...auth } });
   };
 
-  const handleNoCheck = () => {
+  const handleNoAuth = () => {
     push('/');
   };
 
   useEffect(() => {
     const checkStatus = async () => {
       try {
-        await checkUserStatus(handleStatusCheck, handleNoCheck);
+        await checkLoginStatus(handleAuthCheck, handleNoAuth);
       } catch (error) {
         window.console.error('Error', error.message);
       }
@@ -90,10 +90,10 @@ const DashboardRoutes = () => {
       }
     };
 
-    if (uid) {
-      getUserDonations(uid);
+    if (id) {
+      getUserDonations(id);
     }
-  }, [uid, refresh]);
+  }, [id, refresh]);
 
   useEffect(() => {
     const getArticles = async () => {

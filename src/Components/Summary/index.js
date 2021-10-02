@@ -76,6 +76,7 @@ const Summary = () => {
         <div className='text-center text-white position-absolute top-50 start-50 translate-middle mb-4 pb-4 fw-normal'>
           <span className='fw-bolder'>{redeemable_points}</span>/500
         </div>
+
         <Link
           to='/dashboard/redeem'
           className='btn btn-sm btn-link btn-light text-primary rounded-pill text-decoration-none my-2'

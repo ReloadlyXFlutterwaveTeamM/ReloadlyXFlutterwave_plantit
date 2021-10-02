@@ -14,11 +14,11 @@ export const signUpUser = async (values) => {
     const { email, password, name, terms, phone } = values;
     const response = await createUserWithEmailAndPassword(AUTH, email, password);
     const {
-      user: { uid },
+      user: { uid: id },
     } = response;
 
-    await setDoc(doc(DB, 'users', uid), {
-      uid,
+    await setDoc(doc(DB, 'users', id), {
+      id,
       email,
       name,
       phone,
@@ -37,10 +37,10 @@ export const signInUser = async ({ email, password }) => {
     const response = await signInWithEmailAndPassword(AUTH, email, password);
 
     const {
-      user: { uid },
+      user: { uid: id },
     } = response || {};
 
-    const docRef = doc(DB, 'users', uid);
+    const docRef = doc(DB, 'users', id);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -58,13 +58,13 @@ export const checkUserStatus = async (handleUser, handleNoUser) => {
   try {
     onAuthStateChanged(AUTH, async (user) => {
       if (user) {
-        const { uid } = user;
+        const { uid: id } = user;
 
-        const docRef = doc(DB, 'users', uid);
+        const docRef = doc(DB, 'users', id);
         const docSnap = await getDoc(docRef);
 
         if (docSnap.exists()) {
-          handleUser(docSnap.data());
+          handleUser({ user: docSnap.data() });
         }
       } else {
         handleNoUser();

@@ -20,7 +20,7 @@ export default {
       label: 'Phone number',
       placeholder: 'Type your phone number',
       requiredErrorMsg: 'A valid phone number is required',
-      validPhoneMsg: 'A valid phone number is required',
+      validPhoneMsg: 'A valid 10 or 11 digit phone number is required',
     },
     password: {
       name: 'password',

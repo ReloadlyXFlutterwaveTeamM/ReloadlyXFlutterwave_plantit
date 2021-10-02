@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { contexts, types } from 'Store';
-import { signInUser } from 'Adapters';
+import { logInUser } from 'Adapters';
 
 import model from './model';
 import ThirdParty from '../ThirdParty';
@@ -32,13 +32,13 @@ const SignIn = () => {
 
   const hasErrors = (key) => key in errors;
 
-  const signin = async (values) => {
+  const signInUser = async (values) => {
     try {
-      const response = await signInUser(values);
-      const { user, message } = response;
+      const response = await logInUser(values);
+      const { user, message, token } = response;
       authDispatch({
         type: SET_AUTH,
-        payload: { user },
+        payload: { user, token },
       });
 
       setErrors({});
@@ -60,7 +60,7 @@ const SignIn = () => {
     try {
       await validation.validate(details, { abortEarly: false });
 
-      await signin(details);
+      await signInUser(details);
     } catch (error) {
       const { inner } = error || {};
 

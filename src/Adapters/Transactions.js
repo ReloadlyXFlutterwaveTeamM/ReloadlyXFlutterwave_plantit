@@ -1,53 +1,64 @@
-const SERVER_API = process.env.REACT_APP_SERVER_API;
+import { API } from 'Utils';
 
-export const saveTransactionDetails = async (user_id, transaction) => {
+export const saveDonation = async (token, donation) => {
   try {
-    const url = `${SERVER_API}transactions`;
-
-    const body = JSON.stringify({
-      ...transaction,
-      user_id,
-    });
-
-    const res = await fetch(url, {
+    await API({
       method: 'POST',
+      url: '/api/donations',
+      data: donation,
       headers: {
-        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
       },
-      body,
     });
 
-    if (!res.ok) {
-      throw new Error('Unexpected Network Error');
-    }
-
-    const response = await res.json();
-    return response;
+    return { message: 'Successfully saved the donation' };
   } catch (error) {
-    window.console.error('SAVE TRANSCATION DETAILS ERROR', error.message);
-    throw new Error('Failed to save transaction details');
+    window.console.error('SAVE DONATIONS ERROR', error.message);
+    throw new Error('Error saving donations');
   }
 };
 
-export const getTransactionDetails = async (user_id) => {
+export const saveTransaction = async (token, transaction) => {
   try {
-    const url = `${SERVER_API}transactions/${user_id}`;
-
-    const res = await fetch(url, {
-      method: 'GET',
+    await API({
+      method: 'POST',
+      url: '/api/transactions',
+      data: transaction,
       headers: {
-        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    if (!res.ok) {
-      throw new Error('Unexpected Network Error');
-    }
-
-    const response = await res.json();
-    return response;
+    return { message: 'Successfully saved the transaction' };
   } catch (error) {
-    window.console.error('GET TRANSCATION DETAILS ERROR', error.message);
-    throw new Error('Failed to get transaction details');
+    window.console.error('SAVE TRANSACTIONS ERROR', error.message);
+    throw new Error('Error saving transactions');
+  }
+};
+
+export const getDonations = async (user_id, token) => {
+  try {
+    const res = await API({
+      method: 'GET',
+      url: `/api/donations/${user_id}`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const { data } = res;
+    return { donations: data, message: 'Successfully retrieved donations' };
+  } catch (error) {
+    window.console.error('GET DONATIONS ERROR', error.message);
+    throw new Error('Error retrieving donations');
+  }
+};
+
+export const updateDonation = async (donation) => {
+  try {
+    window.console.log('Donation', donation);
+  } catch (error) {
+    window.console.error('UPDATE DONATIONS ERROR', error.message);
+    throw new Error('Error updating donations');
   }
 };

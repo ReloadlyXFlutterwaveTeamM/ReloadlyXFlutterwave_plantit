@@ -24,7 +24,7 @@ const partners = [
 
 const { AuthContext } = contexts;
 
-const Dashboard = ({ articles }) => {
+const Dashboard = ({ articles, setRefresh }) => {
   const {
     state: { user },
   } = useContext(AuthContext);
@@ -41,7 +41,7 @@ const Dashboard = ({ articles }) => {
         </div>
 
         <div className='col-md-5 col-lg-4 mt-2 mt-md-0'>
-          <Donate user={user} />
+          <Donate user={user} setRefresh={setRefresh} />
         </div>
       </div>
     </div>

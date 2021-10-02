@@ -29,7 +29,7 @@ export const saveTransaction = async (transaction) => {
 export const getDonations = async (user_id) => {
   try {
     const donations = [];
-    const q = query(collection(DB, 'donations'), where('uid', '==', user_id));
+    const q = query(collection(DB, 'donations'), where('user_id', '==', user_id));
 
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((donation) => {
@@ -40,5 +40,14 @@ export const getDonations = async (user_id) => {
   } catch (error) {
     window.console.error('GET DONATIONS ERROR', error.message);
     throw new Error('Error retrieving donations');
+  }
+};
+
+export const updateDonation = async (donation) => {
+  try {
+    window.console.log('Donation', donation);
+  } catch (error) {
+    window.console.error('UPDATE DONATIONS ERROR', error.message);
+    throw new Error('Error updating donations');
   }
 };

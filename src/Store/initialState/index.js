@@ -6,9 +6,10 @@ export const authInitialState = {
     email: '',
   },
   token: '',
-  airtime_access_token: '',
-  gift_card_access_token: '',
-  points: 1,
+  total_points: 0,
+  redeemable_points: 0,
+  number_of_trees: 0,
+  total_locations: 0,
 };
 
 export const alertInitialState = {

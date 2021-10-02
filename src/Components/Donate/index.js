@@ -54,7 +54,7 @@ const Modal = ({ onClose, handleAgree }) => {
           <div className='modal-body d-flex flex-column align-items-center justify-content-center'>
             <div className='fw-bold text-center'>Allow FlutterWave to process the payment?</div>
             <div className='fw-normal text-center text-muted'>
-              You will be navigated away from our site to the flatterwave payment portal.
+              You will be navigated away from our site to the flutterwave payment portal.
             </div>
             <div className='mt-2 small text-center text-muted'>Would you like to proceed?</div>
           </div>
@@ -81,7 +81,7 @@ const Modal = ({ onClose, handleAgree }) => {
   );
 };
 
-const Donate = ({ user }) => {
+const Donate = ({ user, setRefresh }) => {
   const { dispatch: alertDispatch } = useContext(AlertContext);
 
   const [errors, setErrors] = useState({});
@@ -143,9 +143,15 @@ const Donate = ({ user }) => {
         user_id: uid,
         donation_id,
         transaction_id,
+        [number_of_trees.name]: parseInt(details[number_of_trees.name], 10),
         [planting_area.name]: JSON.parse(details[planting_area.name]),
         points_earned: details[number_of_trees.name] * 2,
+        points: {
+          earned: details[number_of_trees.name] * 2,
+          redeemed: false,
+        },
         date_of_donation: new Date().toLocaleDateString(),
+        date_actualized: '',
       });
 
       closePaymentModal();
@@ -159,6 +165,7 @@ const Donate = ({ user }) => {
         const message = 'Donation payment is complete';
         alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
       }
+      setRefresh(Math.random());
     } catch (error) {
       alertDispatch({ type: SET_ALERT, payload: { message: error.message, show: true } });
     }

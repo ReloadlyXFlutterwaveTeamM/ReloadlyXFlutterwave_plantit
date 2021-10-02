@@ -26,7 +26,7 @@ const Redeem = () => {
   const {
     airtime_access_token,
     gift_card_access_token,
-    points: redeemable_points,
+    redeemable_points,
     user: { phone: recipient_contact, name: recipient_name, email: recipient_email },
   } = state || {};
 

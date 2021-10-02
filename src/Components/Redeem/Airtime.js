@@ -5,7 +5,7 @@ const Airtime = ({ values, setValues, minimum = 0, maximum = 50 }) => (
   <div className='d-flex flex-column  justify-content-center'>
     <h5 className='text-center'>Redeem as Airtime Top</h5>
     <div className='small text-muted'>
-      Amount redeemable: NGN<span className='fw-bold'>{minimum}</span> (min), NGN
+      Amount redeemable: USD<span className='fw-bold'>{minimum}</span> (min), USD
       <span className='fw-bold'>{maximum}</span> (max)
     </div>
 

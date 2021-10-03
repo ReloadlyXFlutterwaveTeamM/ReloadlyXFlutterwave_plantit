@@ -107,8 +107,6 @@ const DashboardRoutes = () => {
           }))
           .filter(({ date_actualized }) => date_actualized !== '');
 
-        console.log('locations', locations);
-
         dispatch({
           type: SET_AUTH,
           payload: {

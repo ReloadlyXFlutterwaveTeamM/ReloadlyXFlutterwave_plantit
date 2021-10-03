@@ -1,47 +1,41 @@
-const SERVER_API = process.env.REACT_APP_SERVER_API;
+import { API } from 'Utils';
 
-export const getAirtimeAccessToken = async () => {
+export const getAirtimeAccessToken = async (token) => {
   try {
-    const url = `${SERVER_API}api/reloadly_airtime_access_token`;
-
-    const res = await fetch(url, {
+    const res = await API({
       method: 'GET',
-      redirect: 'follow',
+      url: 'api/reloadly_airtime_access_token',
       headers: {
-        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    if (!res.ok) {
-      throw new Error('Unexpected Network Error');
-    }
+    const {
+      data: { access_token },
+    } = res || {};
 
-    const response = await res.json();
-    return response;
+    return { access_token, message: 'Access token successfully retrieved' };
   } catch (error) {
     window.console.error('GET AIRTIME ACCESS TOKEN ERROR', error.message);
     throw new Error('Failed to retrieve airtime access token');
   }
 };
 
-export const getGiftsCardToken = async () => {
+export const getGiftsCardAccessToken = async (token) => {
   try {
-    const url = `${SERVER_API}api/reloadly_giftcard_access_token`;
-
-    const res = await fetch(url, {
+    const res = await API({
       method: 'GET',
-      redirect: 'follow',
+      url: 'api/reloadly_giftcard_access_token',
       headers: {
-        Accept: 'application/json',
+        Authorization: `Bearer ${token}`,
       },
     });
 
-    if (!res.ok) {
-      throw new Error('Unexpected Network Error');
-    }
+    const {
+      data: { access_token },
+    } = res || {};
 
-    const response = await res.json();
-    return response;
+    return { access_token, message: 'Access token successfully retrieved' };
   } catch (error) {
     window.console.error('GET GIFT CARDS ACCESS TOKEN ERROR', error.message);
     throw new Error('Failed to retrieve gift card access token');

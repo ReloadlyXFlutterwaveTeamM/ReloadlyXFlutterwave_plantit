@@ -8,7 +8,7 @@ import {
   signOutUser,
   getDonations,
   getAirtimeAccessToken,
-  getGiftCardAccessToken,
+  getGiftsCardAccessToken,
 } from 'Adapters';
 import { contexts, types } from 'Store';
 import { Navigation } from 'Commons';
@@ -35,6 +35,7 @@ const DashboardRoutes = () => {
 
   const {
     user: { name, id },
+    token,
   } = state || {};
 
   const handleAuthCheck = (auth) => {
@@ -58,6 +59,25 @@ const DashboardRoutes = () => {
   }, []);
 
   useEffect(() => {
+    const getTokens = async () => {
+      try {
+        const { access_token: airtime_access_token } = await getAirtimeAccessToken(token);
+        const { access_token: gift_card_access_token } = await getGiftsCardAccessToken(token);
+
+        dispatch({
+          type: SET_AUTH,
+          payload: { airtime_access_token, gift_card_access_token },
+        });
+      } catch (error) {
+        window.console.log('Tokens', error.message);
+      }
+    };
+    if (token) {
+      getTokens();
+    }
+  }, [token]);
+
+  useEffect(() => {
     const getUserDonations = async (user_id) => {
       try {
         const response = await getDonations(user_id);
@@ -67,7 +87,7 @@ const DashboardRoutes = () => {
           ...new Set(fetchedDonations.map(({ planting_area }) => planting_area.name)),
         ].length;
 
-        const number_of_trees = fetchedDonations
+        const total_number_of_trees = fetchedDonations
           .map((donation) => donation.number_of_trees)
           .reduce((prev, curr) => prev + curr, 0);
 
@@ -79,9 +99,25 @@ const DashboardRoutes = () => {
           .map(({ points }) => !points.redeemed && points.earned)
           .reduce((prev, curr) => prev + curr, 0);
 
+        const locations = fetchedDonations
+          .map(({ date_actualized, number_of_trees, planting_area }) => ({
+            date_actualized,
+            number_of_trees,
+            ...planting_area,
+          }))
+          .filter(({ date_actualized }) => date_actualized !== '');
+
+        console.log('locations', locations);
+
         dispatch({
           type: SET_AUTH,
-          payload: { total_points, redeemable_points, number_of_trees, total_locations },
+          payload: {
+            total_points,
+            redeemable_points,
+            number_of_trees: total_number_of_trees,
+            total_locations,
+            locations,
+          },
         });
 
         // setDonations(fetchedDonations);
@@ -107,23 +143,6 @@ const DashboardRoutes = () => {
       }
     };
     getArticles();
-  }, []);
-
-  useEffect(() => {
-    const getTokens = async () => {
-      try {
-        const { access_token: airtime_access_token } = await getAirtimeAccessToken();
-        const { access_token: gift_card_access_token } = await getGiftCardAccessToken();
-
-        dispatch({
-          type: SET_AUTH,
-          payload: { airtime_access_token, gift_card_access_token },
-        });
-      } catch (error) {
-        window.console.log('Tokens', error.message);
-      }
-    };
-    getTokens();
   }, []);
 
   return (

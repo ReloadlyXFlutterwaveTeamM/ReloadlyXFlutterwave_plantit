@@ -8,9 +8,9 @@
 
 This project is a result of the #ReloadlyXFlutterwave Hackathon. Working with a group of four, Product Manager, Product Designer, Backend Engineer and a Frontend Engineer.
 
-## What is Plant It!?
+## What is Plant iT!?
 
-**Plant It!** is a web application that allows users to plant trees in their neighbourhood at the touch of a button. We aim to provide you with a safe and secure 🔐 way to plant trees in your neighbourhood.
+**Plant iT!** is a web application that allows users to plant trees in their neighbourhood at the touch of a button. We aim to provide you with a safe and secure 🔐 way to plant trees in your neighbourhood.
 
 ## How it works
 
@@ -32,7 +32,7 @@ While doing this, earn points you can use to redeem rewards 🎁 🎁 ie. airtim
 
 ## Getting started 🚀
 
-Visit **Plant It!**, [here](https://plantit.netlify.app) to get started.
+Visit **Plant iT!**, [here](https://plantit.netlify.app) to get started.
 
 Can't wait for you to join us ...
 

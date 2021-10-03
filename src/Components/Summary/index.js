@@ -22,12 +22,12 @@ const Summary = () => {
 
   return (
     <div className='position-relative d-flex flex-column flex-md-row rounded border border-2 border-light p-2'>
-      <div className='col-md-6 p-2 pb-4 d-flex flex-column position-relative'>
+      <div className='col-md-6 p-2 pb-4 mb-2 d-flex flex-column position-relative'>
         <div className='text-muted small fw-light'>Congratulations</div>
 
         <h5>{leveller(total_points)}</h5>
 
-        <div className='text-muted small'>
+        <div className='text-muted small '>
           You have planted <span className='text-primary fw-bold'>{number_of_trees}</span> trees in{' '}
           <span className='text-warning'>{total_locations}</span> locations. Plant more to gain more
           points.

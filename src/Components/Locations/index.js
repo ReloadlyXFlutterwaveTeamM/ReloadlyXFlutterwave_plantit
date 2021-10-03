@@ -1,48 +1,57 @@
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useRef, useEffect, useState, useContext } from 'react';
 import mapboxgl from 'mapbox-gl';
+
+import { contexts } from 'Store';
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_PUBLIC_TOKEN;
 
-const LOCATIONS = [
-  { name: 'Kaduna', trees: 20, date: '20/02/2021', coordinates: [7.4165, 10.5105] },
-  { name: 'Kano', trees: 15, date: '19/03/2019', coordinates: [8.592, 12.0022] },
-  { name: 'Zaria', trees: 3, date: '20/02/2021', coordinates: [7.7199, 11.0855] },
-  { name: 'Sokoto', trees: 10, date: '20/02/2020', coordinates: [5.2476, 13.0059] },
-  { name: 'Lagos', trees: 26, date: '4/07/2020', coordinates: [3.406448, 6.465422] },
-];
+const { AuthContext } = contexts;
 
-const LocationList = ({ handleClick }) => (
-  <div className='d-flex flex-column p-2 p-md-4 border rounded rounder-3 bg-white'>
-    <div className='fw-bold text-center'>You own trees in these locations</div>
-    <div className='fw-light text-center small text-primary mb-2'>
-      Click to view locations on map
+const LocationList = ({ handleClick }) => {
+  const {
+    state: { locations },
+  } = useContext(AuthContext);
+
+  return (
+    <div className='d-flex flex-column p-2 p-md-4 border rounded rounder-3 bg-white'>
+      <div className='fw-bold text-center'>You own trees in these locations</div>
+
+      <div className='fw-light text-center small text-primary mb-2'>
+        Click to view locations on map
+      </div>
+
+      {locations.length ? (
+        <div className='list-group list-group-flush locations-list'>
+          {locations.map((location) => {
+            const { date_actualized, number_of_trees, name, coordinates } = location;
+            return (
+              <button
+                type='button'
+                key={`${name}-${date_actualized}`}
+                onClick={() => handleClick(coordinates)}
+                className='bg-light border-0 list-group-item list-group-item-action rounded rounded-3 my-2'
+              >
+                <div className='small d-flex align-items-center justify-content-between'>
+                  <div className='fw-light'>{name}</div>
+
+                  <div className='d-flex flex-column'>
+                    <div className='fw-bold'>{`${number_of_trees} Trees`}</div>
+
+                    <div>{date_actualized}</div>
+                  </div>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div className='text-center small text-danger locations-list'>
+          No locations available, no trees yet planted
+        </div>
+      )}
     </div>
-
-    <div className='list-group list-group-flush'>
-      {LOCATIONS.map((location) => {
-        const { name, trees, date, coordinates } = location;
-        return (
-          <button
-            type='button'
-            key={`${name}-${date}`}
-            onClick={() => handleClick(coordinates)}
-            className='bg-light border-0 list-group-item list-group-item-action rounded rounded-3 my-2'
-          >
-            <div className='small d-flex align-items-center justify-content-between'>
-              <div className='fw-light'>{name}</div>
-
-              <div className='d-flex flex-column'>
-                <div className='fw-bold'>{`${trees} Trees`}</div>
-
-                <div>{date}</div>
-              </div>
-            </div>
-          </button>
-        );
-      })}
-    </div>
-  </div>
-);
+  );
+};
 
 const Locations = () => {
   const mapContainer = useRef(null);
@@ -81,18 +90,12 @@ const Locations = () => {
     <div className='container h-100'>
       <div className='d-flex flex-column align-items-center justify-content-center position-relative h-100'>
         <div ref={mapContainer} className='map-container position-relative'>
-          <div
-            className='d-none d-md-flex flex-column ms-1 ms-md-2 mt-1 mt-md-2 border rounded rounder-3 bg-white position-absolute top-0 start-0'
-            style={{ zIndex: 100 }}
-          >
+          <div className='d-none d-md-flex flex-column ms-1 ms-md-2 mt-1 mt-md-2 border rounded rounder-3 bg-white position-absolute top-0 start-0 location-container'>
             <LocationList handleClick={onLocationClick} />
           </div>
         </div>
 
-        <div
-          className='w-100d-flex d-md-none flex-column border rounded rounder-3 bg-white position-fixed top-100 start-50 translate-middle'
-          style={{ zIndex: 100, width: '80vw' }}
-        >
+        <div className='w-100d-flex d-md-none flex-column border rounded rounder-3 bg-white position-fixed top-100 start-50 translate-middle location-container'>
           <LocationList handleClick={onLocationClick} />
         </div>
       </div>

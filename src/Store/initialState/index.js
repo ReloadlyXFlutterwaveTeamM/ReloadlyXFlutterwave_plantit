@@ -10,6 +10,7 @@ export const authInitialState = {
   redeemable_points: 0,
   number_of_trees: 0,
   total_locations: 0,
+  locations: [],
 };
 
 export const alertInitialState = {

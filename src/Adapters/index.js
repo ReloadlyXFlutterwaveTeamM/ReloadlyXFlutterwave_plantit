@@ -1,8 +1,9 @@
-import { sendAirtimeTopUps, getOperatorDetails, getAirtimeAccessToken } from './Airtime';
-import { orderGiftCards, getAllGiftCardProducts, getGiftCardAccessToken } from './GiftCards';
+import { sendAirtimeTopUps, getOperatorDetails } from './Airtime';
+import { orderGiftCards, getAllGiftCardProducts } from './GiftCards';
 import { registerUser, logInUser, logOutUser, getSanctumToken, checkLoginStatus } from './Auth';
 import { saveDonation, saveTransaction, getDonations, updateDonation } from './Transactions';
 import { signInUser, signUpUser, checkUserStatus, signOutUser } from './Authentication';
+import { getAirtimeAccessToken, getGiftsCardAccessToken } from './Tokens';
 
 export {
   // AUTHENTICATION APIs -firebase
@@ -18,11 +19,11 @@ export {
   // RELOADLY PRODUCTS
   sendAirtimeTopUps,
   getOperatorDetails,
-  getAirtimeAccessToken,
   orderGiftCards,
-  // RELOADLY ACCESS TOKENS
   getAllGiftCardProducts,
-  getGiftCardAccessToken,
+  // RELOADLY ACCESS TOKENS
+  getAirtimeAccessToken,
+  getGiftsCardAccessToken,
   // AUTHENTICATION APIs -Sanctum
   getSanctumToken,
   logInUser,

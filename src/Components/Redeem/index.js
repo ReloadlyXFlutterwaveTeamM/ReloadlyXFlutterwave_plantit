@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useContext, useEffect, useState } from 'react';
 import * as bootstrap from 'bootstrap';
 
@@ -47,22 +48,27 @@ const Redeem = () => {
 
   const handleSendAirtime = async ({ amount = 100 }) => {
     try {
-      const operatorRes = await getOperatorDetails(airtime_access_token, {
-        recipient_contact,
-        recipient_country_code,
-      });
+      if (amount < minimum || amount > maximum) {
+        const message = 'Amount selected is outside the stated range';
+        alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
+      } else {
+        const operatorRes = await getOperatorDetails(airtime_access_token, {
+          recipient_contact,
+          recipient_country_code,
+        });
 
-      const { id: operatorId } = operatorRes || {};
+        const { id: operatorId } = operatorRes || {};
 
-      const reference = `PLANTIT-AIRTIME-${new Date().getTime()}`;
+        const reference = `PLANTIT-AIRTIME-${new Date().getTime()}`;
 
-      await sendAirtimeTopUps(airtime_access_token, reference, amount, {
-        operatorId,
-        recipient_contact,
-        recipient_country_code,
-      });
-      const message = 'Airtime top up redemption successful';
-      alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
+        await sendAirtimeTopUps(airtime_access_token, reference, amount, {
+          operatorId,
+          recipient_contact,
+          recipient_country_code,
+        });
+        const message = 'Airtime top up redemption successful';
+        alertDispatch({ type: SET_ALERT, payload: { message, show: true } });
+      }
     } catch (error) {
       alertDispatch({ type: SET_ALERT, payload: { message: error.message, show: true } });
     }
@@ -124,7 +130,12 @@ const Redeem = () => {
     const allowableAmount = 5; /** 5 USD allowable minimum amount */
     const redeemableAmount = redeemable_points * 0.5 - allowableAmount;
 
-    const maxAmount = redeemableAmount < 0 ? 0 : redeemableAmount; /** O.5 USD reserved */
+    const maxAmount =
+      redeemableAmount < 0
+        ? 0
+        : redeemableAmount < allowableAmount
+        ? 0
+        : redeemableAmount; /** O.5 USD reserved */
     const minAmount = maxAmount <= allowableAmount ? 0 : allowableAmount;
 
     setMaximum(maxAmount);

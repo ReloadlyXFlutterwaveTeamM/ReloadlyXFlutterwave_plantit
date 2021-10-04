@@ -105,6 +105,7 @@ const DashboardRoutes = () => {
             number_of_trees,
             date_of_donation,
             ...planting_area,
+            coordinates: JSON.parse(planting_area.coordinates),
           }),
         );
         // .filter(({ date_actualized }) => date_actualized !== '');

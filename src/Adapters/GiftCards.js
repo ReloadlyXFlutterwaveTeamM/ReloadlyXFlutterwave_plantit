@@ -10,7 +10,7 @@ const audience = 'https://giftcards.reloadly.com';
 
 export const orderGiftCards = async (access_token, reference, product, recipient) => {
   try {
-    const { productId, quantity, unitPrice } = product || {};
+    const { productId, fixedRecipientDenominations } = product || {};
     const { recipient_name, recipient_email, recipient_country_code = 'NG' } = recipient || {};
 
     const url = `${audience}/orders`;
@@ -18,8 +18,8 @@ export const orderGiftCards = async (access_token, reference, product, recipient
     const body = JSON.stringify({
       productId,
       countryCode: recipient_country_code,
-      quantity,
-      unitPrice,
+      quantity: 1,
+      unitPrice: fixedRecipientDenominations[0],
       customIdentifier: reference,
       senderName: `PLANTIT-${recipient_name}`,
       recipientEmail: recipient_email,
@@ -29,11 +29,15 @@ export const orderGiftCards = async (access_token, reference, product, recipient
       method: 'POST',
       headers: {
         Authorization: `Bearer ${access_token}`,
-        Accept: 'application/com.reloadly.giftcards-v1+json',
         'Content-Type': 'application/json',
+        Accept: 'application/com.reloadly.giftcards-v1+json',
       },
       body,
     });
+
+    if (res.status === 400) {
+      throw new Error('Sorry, you cannot order this product at the moment.');
+    }
 
     if (!res.ok) {
       throw new Error('Unexpected Network Error');
@@ -43,7 +47,7 @@ export const orderGiftCards = async (access_token, reference, product, recipient
     return response;
   } catch (error) {
     window.console.error('ORDER GIFT CARD ERROR', error.message);
-    throw new Error('Failed to order gift card');
+    throw new Error(error.message || 'Failed to order gift card');
   }
 };
 
@@ -55,7 +59,7 @@ export const getAllGiftCardProducts = async (access_token, countryCode = 'NG') =
       method: 'GET',
       headers: {
         Authorization: `BEARER ${access_token}`,
-        Accept: 'application/com.reloadly.topups-v1+json',
+        Accept: 'application/com.reloadly.giftcards-v1+json',
       },
     });
 
@@ -67,7 +71,7 @@ export const getAllGiftCardProducts = async (access_token, countryCode = 'NG') =
     return response;
   } catch (error) {
     window.console.error('GET GIFT CARD PRODUCTS ERROR', error.message);
-    throw new Error('Failed to order gift card');
+    throw new Error(error.message || 'Failed to order gift card');
   }
 };
 

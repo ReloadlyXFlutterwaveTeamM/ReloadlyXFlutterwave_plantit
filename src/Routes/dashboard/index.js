@@ -80,7 +80,7 @@ const DashboardRoutes = () => {
   useEffect(() => {
     const getUserDonations = async (user_id) => {
       try {
-        const response = await getDonations(user_id);
+        const response = await getDonations(user_id, token);
         const { donations: fetchedDonations } = response || {};
 
         const total_locations = [
@@ -99,13 +99,15 @@ const DashboardRoutes = () => {
           .map(({ points }) => !points.redeemed && points.earned)
           .reduce((prev, curr) => prev + curr, 0);
 
-        const locations = fetchedDonations
-          .map(({ date_actualized, number_of_trees, planting_area }) => ({
+        const locations = fetchedDonations.map(
+          ({ date_actualized, number_of_trees, planting_area, date_of_donation }) => ({
             date_actualized,
             number_of_trees,
+            date_of_donation,
             ...planting_area,
-          }))
-          .filter(({ date_actualized }) => date_actualized !== '');
+          }),
+        );
+        // .filter(({ date_actualized }) => date_actualized !== '');
 
         dispatch({
           type: SET_AUTH,

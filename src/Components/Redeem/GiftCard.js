@@ -4,7 +4,7 @@ import React from 'react';
 const Airtime = ({ values, setValues, products, maximum, minimum }) => (
   <div className='d-flex flex-column  justify-content-center'>
     <h5 className='text-center'>Redeem as Gift Card</h5>
-    <div className='small text-muted'>
+    <div className='small text-muted text-center'>
       You can redeem your points as Gift cards for numerous brands
     </div>
 
@@ -24,8 +24,9 @@ const Airtime = ({ values, setValues, products, maximum, minimum }) => (
         <option value=''>Select a gift card</option>
         {products
           .filter(
-            ({ fixedSenderDenominations }) =>
-              fixedSenderDenominations >= minimum && fixedSenderDenominations >= maximum,
+            ({ fixedRecipientDenominations }) =>
+              fixedRecipientDenominations[0] >= minimum &&
+              fixedRecipientDenominations[0] <= maximum,
           )
           .map((product) => {
             const { productName, productId } = product;
@@ -36,6 +37,10 @@ const Airtime = ({ values, setValues, products, maximum, minimum }) => (
             );
           })}
       </select>
+
+      <div className='form-text small text-center mt-4'>
+        *List maybe empty if you dont have the minimum points for any product
+      </div>
     </div>
   </div>
 );

@@ -29,7 +29,8 @@ const LocationList = ({ handleClick }) => {
       {locations.length ? (
         <div className='list-group list-group-flush locations-list'>
           {locations.map((location) => {
-            const { date_actualized, number_of_trees, name, coordinates } = location;
+            const { date_actualized, date_of_donation, number_of_trees, name, coordinates } =
+              location;
             return (
               <button
                 type='button'
@@ -43,7 +44,7 @@ const LocationList = ({ handleClick }) => {
                   <div className='d-flex flex-column'>
                     <div className='fw-bold'>{`${number_of_trees} Trees`}</div>
 
-                    <div>{date_actualized}</div>
+                    <div>{date_actualized || date_of_donation}</div>
                   </div>
                 </div>
               </button>

@@ -108,14 +108,17 @@ const Redeem = () => {
     const getGiftProducts = async () => {
       try {
         const response = await getAllGiftCardProducts(gift_card_access_token, 'NG');
-        setProducts(response);
+        const { content: fetchedProducts } = response || {};
+        setProducts(fetchedProducts);
       } catch (error) {
         window.console.log('Error', error);
       }
     };
 
-    getGiftProducts();
-  }, []);
+    if (gift_card_access_token) {
+      getGiftProducts();
+    }
+  }, [gift_card_access_token]);
 
   useEffect(() => {
     const allowableAmount = 5; /** 5 USD allowable minimum amount */
@@ -198,7 +201,7 @@ const Redeem = () => {
                 <div className='d-grid gap-2 mt-3'>
                   <button
                     type='button'
-                    // disabled={isRedeemable}
+                    disabled={isRedeemable}
                     className='col-6 btn btn-sm btn-primary text-white'
                     onClick={() => handleButtonClick(AIRTIME_TOPSUPS)}
                   >
@@ -254,7 +257,7 @@ const Redeem = () => {
                     onClick={() => handleButtonClick(DATA_BUNDLES)}
                     className='col-6 btn btn-sm btn-primary text-white'
                   >
-                    {isRedeemable ? 'Earn more points to redeem' : 'Not yet available'}
+                    Not yet available
                   </button>
                 </div>
               </div>

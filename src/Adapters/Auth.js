@@ -61,23 +61,22 @@ export const logInUser = async ({ email, password }) => {
   }
 };
 
-export const logOutUser = async (token) => {
-  try {
-    await API({
-      method: 'GET',
-      url: 'api/logout',
-      headers: {
-        Authorization: `BEARER ${token}`,
-      },
-    });
+export const logOutUser = async (access_token) => {
+  const myHeaders = new Headers();
+  myHeaders.append('Authorization', `Bearer ${access_token}`);
+  myHeaders.append('Content-Type', 'application/json');
 
-    localStorage.clear();
+  const requestOptions = {
+    method: 'GET',
+    headers: myHeaders,
+    redirect: 'follow',
+  };
 
-    return { message: 'Successfully logged out user' };
-  } catch (error) {
-    window.console.error('SIGN OUT ERROR', error.message);
-    throw new Error('Unexpected error, failed to sign out user');
-  }
+  localStorage.clear();
+
+  await fetch('https://plant-it-api.herokuapp.com/api/logout', requestOptions);
+
+  return { message: 'Successfully logged out user' };
 };
 
 export const checkLoginStatus = async (handleAuth, handleNoAuth) => {

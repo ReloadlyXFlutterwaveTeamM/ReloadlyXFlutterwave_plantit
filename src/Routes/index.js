@@ -23,7 +23,7 @@ const Routes = () => {
 
   return (
     <>
-      <ToastContainer className='p-3' position='top-end' style={{ zIndex: 2000 }}>
+      <ToastContainer className='p-3 position-fixed' position='top-end' style={{ zIndex: 2000 }}>
         <Toast show={show} delay={6000} autohide onClose={handleClose}>
           <Toast.Header closeButton>
             <img

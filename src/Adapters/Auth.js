@@ -68,7 +68,6 @@ export const logOutUser = async (token) => {
       url: 'api/logout',
       headers: {
         Authorization: `BEARER ${token}`,
-        Accept: 'application/json',
       },
     });
 

@@ -16,6 +16,10 @@ const {
   fields: { email, password },
 } = model;
 
+/**
+ * The sign in form
+ * @name SignIn
+ */
 const SignIn = () => {
   const { push } = useHistory();
   const { dispatch: authDispatch } = useContext(AuthContext);

@@ -4,7 +4,7 @@ import { RiVisaLine, RiMastercardFill } from 'react-icons/ri';
 import { GrAmex } from 'react-icons/gr';
 import * as bootstrap from 'bootstrap';
 
-import { saveDonation, saveTransaction } from 'Adapters';
+import { saveDonation } from 'Adapters';
 import { contexts, types } from 'Store';
 
 import model from './model';
@@ -35,8 +35,13 @@ const PLANTING_AREAS = [
 ];
 
 const { SET_ALERT } = types;
-const { AlertContext } = contexts;
+const { AlertContext, AuthContext } = contexts;
 
+/**
+ * @param {Object} props
+ * @param {Function} props.onClose - called when the modal is closed
+ * @param {Function} props.handleAgree - called when the user accepts
+ */
 const Modal = ({ onClose, handleAgree }) => {
   const onAgree = () => {
     handleAgree();
@@ -81,8 +86,18 @@ const Modal = ({ onClose, handleAgree }) => {
   );
 };
 
-const Donate = ({ user, setRefresh }) => {
+/**
+ * @name Donate
+ *
+ * @param {Object} props
+ * @param {Function} props.setRefresh - reloads the dashboard after making a donation
+ * @returns
+ */
+const Donate = ({ setRefresh }) => {
   const { dispatch: alertDispatch } = useContext(AlertContext);
+  const {
+    state: { user, token },
+  } = useContext(AuthContext);
 
   const [errors, setErrors] = useState({});
   const [validated, setValidated] = useState(false);
@@ -90,7 +105,7 @@ const Donate = ({ user, setRefresh }) => {
   const [details, setDetails] = useState(initialValues);
   const [amount, setAmount] = useState();
 
-  const { email: user_email, phone: user_phone, name: user_name, uid } = user;
+  const { email: user_email, phone: user_phone, name: user_name, id } = user;
 
   const onChange = (e) => {
     setDetails((d) => ({ ...d, [e.target.name]: e.target.value }));
@@ -134,13 +149,11 @@ const Donate = ({ user, setRefresh }) => {
   const paymentCallback = async (response) => {
     try {
       const { transaction_id } = response || {};
-      const donation_id = `${uid}${new Date().getTime()}`;
+      const donation_id = `${id}${new Date().getTime()}`;
 
-      await saveTransaction({ ...response, user_id: uid });
-
-      await saveDonation({
+      await saveDonation(token, {
+        ...response,
         ...details,
-        user_id: uid,
         donation_id,
         transaction_id,
         [number_of_trees.name]: parseInt(details[number_of_trees.name], 10),

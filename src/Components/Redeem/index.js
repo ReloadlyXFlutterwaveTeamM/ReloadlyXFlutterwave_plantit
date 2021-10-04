@@ -21,6 +21,9 @@ const AIRTIME_TOPSUPS = 'AIRTIME_TOPSUPS';
 const DATA_BUNDLES = 'DATA_BUNDLES';
 const GIFT_CARDS = 'GIFT_CARDS';
 
+/**
+ * @name Redeem
+ */
 const Redeem = () => {
   const { state } = useContext(AuthContext);
   const { dispatch: alertDispatch } = useContext(AlertContext);
@@ -195,7 +198,7 @@ const Redeem = () => {
                 <div className='d-grid gap-2 mt-3'>
                   <button
                     type='button'
-                    disabled={isRedeemable}
+                    // disabled={isRedeemable}
                     className='col-6 btn btn-sm btn-primary text-white'
                     onClick={() => handleButtonClick(AIRTIME_TOPSUPS)}
                   >

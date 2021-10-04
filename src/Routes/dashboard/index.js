@@ -5,7 +5,7 @@ import { Dashboard, Locations, Redeem } from 'Components';
 import {
   getNewsArticles,
   checkLoginStatus,
-  signOutUser,
+  logOutUser,
   getDonations,
   getAirtimeAccessToken,
   getGiftsCardAccessToken,
@@ -26,17 +26,17 @@ const DashboardRoutes = () => {
   const [articles, setArticles] = useState([]);
   const [refresh, setRefresh] = useState(0);
 
-  const handleLogout = async () => {
-    await signOutUser();
-
-    dispatch({ type: REMOVE_AUTH });
-    push('/');
-  };
-
   const {
     user: { name, id },
     token,
   } = state || {};
+
+  const handleLogout = async () => {
+    await logOutUser(token);
+
+    dispatch({ type: REMOVE_AUTH });
+    push('/');
+  };
 
   const handleAuthCheck = (auth) => {
     dispatch({ type: SET_AUTH, payload: { ...auth } });

@@ -16,6 +16,10 @@ const {
 const { AlertContext } = contexts;
 const { SET_ALERT } = types;
 
+/**
+ * The registration form
+ * @name SignUp
+ */
 const SignUp = () => {
   const { push } = useHistory();
 

@@ -1,4 +1,2 @@
-import { logIn, logOut, isLoggedIn } from './auth';
-
+/* eslint-disable import/prefer-default-export */
 export { default as API } from './api';
-export { logIn, logOut, isLoggedIn };

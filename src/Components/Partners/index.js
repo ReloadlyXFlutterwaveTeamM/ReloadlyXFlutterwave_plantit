@@ -1,5 +1,15 @@
 import React from 'react';
 
+/**
+ * @name Partners
+ *
+ * @param {Object} props
+ * @param {Object} props.partners
+ * @param {string} props.partners.title - the partners name
+ * @param {string} props.partners.alt - the logo images alt
+ * @param {string} props.partners.src - the logo's image src
+ * @param {string} props.partners.url - the url to the partner site
+ */
 const Partners = ({ partners }) => (
   <div className='mt-4 d-none d-md-flex flex-column'>
     <div className='fw-bold mb-2'>Climate Partners</div>

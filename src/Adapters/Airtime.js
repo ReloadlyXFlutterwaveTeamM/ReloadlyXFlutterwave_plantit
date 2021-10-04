@@ -4,10 +4,12 @@ const CLIENT_SECRET = process.env.REACT_APP_RELOADLY_CLIENT_SECRET;
 const SENDER_CONTACT = process.env.REACT_APP_RELOADLY_SENDER;
 const SENDER_COUNTRY_CODE = process.env.REACT_APP_RELOADLY_COUNTRY;
 
-const audience =
-  process.env.NODE_ENV === 'development'
-    ? 'https://topups-sandbox.reloadly.com'
-    : 'https://topups.reloadly.com';
+// const audience =
+//   process.env.NODE_ENV === 'development'
+//     ? 'https://topups-sandbox.reloadly.com'
+//     : 'https://topups.reloadly.com';
+
+const audience = 'https://topups.reloadly.com';
 
 /**
  * Verify and get the operator details from the user phone number
@@ -77,7 +79,7 @@ export const sendAirtimeTopUps = async (
         number: recipient_contact,
       },
       senderPhone: {
-        countryCode: SENDER_COUNTRY_CODE,
+        countryCode: SENDER_COUNTRY_CODE || 'NG',
         number: SENDER_CONTACT,
       },
     });

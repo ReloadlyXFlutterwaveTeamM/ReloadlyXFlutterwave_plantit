@@ -12,18 +12,28 @@ const partners = [
     title: 'Flutterwave',
     alt: 'Flutterwave Logo',
     src: 'flutterwave_logo.png',
-    link: 'https://flutterwave.com/us/',
+    url: 'https://flutterwave.com/us/',
   },
   {
     title: 'Reloadly',
     alt: 'Reloadly Logo',
     src: 'reloadly_logo.png',
-    link: 'https://www.reloadly.com/',
+    url: 'https://www.reloadly.com/',
   },
 ];
 
 const { AuthContext } = contexts;
 
+/**
+ * @name Dashboard
+ *
+ * @param {Object} props
+ * @param {Object} props.articles
+ * @param {string} props.articles.name - the title of the article
+ * @param {string} props.articles.url - the access link/url for the article
+ * @param {string} props.articles.description - a description of the articles
+ * @param {Function} props.setRefresh - reloads the dashboard after making a donation
+ */
 const Dashboard = ({ articles, setRefresh }) => {
   const {
     state: { user },

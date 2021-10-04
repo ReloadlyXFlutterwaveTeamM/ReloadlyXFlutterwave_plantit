@@ -7,6 +7,12 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_PUBLIC_TOKEN;
 
 const { AuthContext } = contexts;
 
+/**
+ * @name LocationList
+ *
+ * @param {Object} props
+ * @param {Function} props.handleClick - called when a location is called
+ */
 const LocationList = ({ handleClick }) => {
   const {
     state: { locations },
@@ -53,6 +59,9 @@ const LocationList = ({ handleClick }) => {
   );
 };
 
+/**
+ * @name Locations
+ */
 const Locations = () => {
   const mapContainer = useRef(null);
   const map = useRef(null);

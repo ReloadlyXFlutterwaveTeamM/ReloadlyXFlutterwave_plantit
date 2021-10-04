@@ -1,10 +1,12 @@
 const CLIENT_ID = process.env.REACT_APP_RELOADLY_CLIENT_ID;
 const CLIENT_SECRET = process.env.REACT_APP_RELOADLY_CLIENT_SECRET;
 
-const audience =
-  process.env.NODE_ENV === 'development'
-    ? 'https://giftcards-sandbox.reloadly.com'
-    : 'https://giftcards.reloadly.com';
+// const audience =
+//   process.env.NODE_ENV === 'development'
+//     ? 'https://giftcards-sandbox.reloadly.com'
+//     : 'https://giftcards.reloadly.com';
+
+const audience = 'https://giftcards.reloadly.com';
 
 export const orderGiftCards = async (access_token, reference, product, recipient) => {
   try {

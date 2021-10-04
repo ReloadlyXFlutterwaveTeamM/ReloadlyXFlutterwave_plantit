@@ -1,6 +1,16 @@
 import React from 'react';
 import _ from 'lodash';
 
+/**
+ * Display a list of the articles
+ * @name Articles
+ *
+ * @param {Object} props
+ * @param {Object} props.articles
+ * @param {string} props.articles.name - the title of the article
+ * @param {string} props.articles.url - the access link/url for the article
+ * @param {string} props.articles.description - a description of the articles
+ */
 const Articles = ({ articles }) => (
   <div className='mt-4 d-none d-md-flex flex-column'>
     <div className='fw-bold mb-2'>Learn about Climate Change</div>

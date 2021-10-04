@@ -1,11 +1,11 @@
 import { API } from 'Utils';
 
-export const saveDonation = async (token, donation) => {
+export const saveDonation = async (token, transaction, donation) => {
   try {
     await API({
       method: 'POST',
-      url: '/api/donations',
-      data: donation,
+      url: '/api/donation',
+      data: { ...transaction, ...donation },
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -40,7 +40,7 @@ export const getDonations = async (user_id, token) => {
   try {
     const res = await API({
       method: 'GET',
-      url: `/api/donations/${user_id}`,
+      url: `/api/donation/${user_id}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

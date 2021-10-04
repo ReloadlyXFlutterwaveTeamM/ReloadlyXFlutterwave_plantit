@@ -43,7 +43,14 @@ const Partners = ({ partners }) => (
         <div className='text-center small'>Want to be a partner?</div>
         <div className='text-center small'>We’ll be glad to have you!</div>
 
-        <div className='text-center text-info fw-bold mt-3'>Join Us</div>
+        <a
+          href='mailto:lutbrianivan@gmail.com?subject=Intent For a Partnership'
+          target='_blank'
+          rel='noreferrer'
+          className='text-center text-info fw-bold mt-3 text-decoration-none'
+        >
+          Join Us
+        </a>
       </div>
     </div>
   </div>

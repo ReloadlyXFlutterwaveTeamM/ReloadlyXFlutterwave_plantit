@@ -69,10 +69,12 @@ export const sendAirtimeTopUps = async (
 ) => {
   try {
     const url = `${audience}/topups`;
+    const NAIRA_EXCHANGE_RATE = 400;
 
     const body = JSON.stringify({
       operatorId,
-      amount,
+      amount: amount * NAIRA_EXCHANGE_RATE,
+      useLocalAmount: true,
       customIdentifier: reference,
       recipientPhone: {
         countryCode: recipient_country_code,
@@ -94,6 +96,11 @@ export const sendAirtimeTopUps = async (
       body,
     });
 
+    if (res.status === 400) {
+      const response = await res.json();
+      throw new Error(response.message);
+    }
+
     if (!res.ok) {
       throw new Error('Unexpected Network Error');
     }
@@ -102,7 +109,7 @@ export const sendAirtimeTopUps = async (
     return response;
   } catch (error) {
     window.console.error('SEND AIRTIME TOP UPS ERROR', error.message);
-    throw new Error('Failed to send airtime top ups');
+    throw new Error(error.message || 'Failed to send airtime top ups');
   }
 };
 

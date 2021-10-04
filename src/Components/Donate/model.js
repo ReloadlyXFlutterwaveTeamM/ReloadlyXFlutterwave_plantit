@@ -10,13 +10,13 @@ export default {
     planting_area: {
       name: 'planting_area',
       label: 'Where do you want to plant them?',
-      placeholder: 'Choose one or more',
+      placeholder: 'Choose an area',
       requiredErrorMsg: 'A selection is required',
     },
     tree_type: {
       name: 'tree_type',
       label: 'Type of tree',
-      placeholder: 'Choose one or more',
+      placeholder: 'Choose a tree type',
       requiredErrorMsg: 'A selection is required',
     },
   },

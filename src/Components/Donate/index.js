@@ -61,7 +61,20 @@ const Modal = ({ onClose, handleAgree }) => {
             <div className='fw-normal text-center text-muted'>
               You will be navigated away from our site to the flutterwave payment portal.
             </div>
+
             <div className='mt-2 small text-center text-muted'>Would you like to proceed?</div>
+
+            <div className='small text-warning text-center'>
+              *Use test cards provided by Flutterwave,{' '}
+              <a
+                href='https://developer.flutterwave.com/docs/test-cards'
+                target='_blank'
+                rel='noreferrer'
+                className='small text-info text-decoration-none'
+              >
+                here
+              </a>
+            </div>
           </div>
 
           <div className='modal-footer flex-nowrap p-0'>

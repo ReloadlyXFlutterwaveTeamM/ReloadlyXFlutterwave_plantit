@@ -8,8 +8,8 @@ const DashboardNav = ({ name = 'Unknown', handleClick }) => (
   >
     <Link to='/dashboard'>
       <img
-        title='Plant It!'
-        alt='Plant It! Logo'
+        title='Plant iT!'
+        alt='Plant iT! Logo'
         className='img-fluid'
         src={`${process.env.PUBLIC_URL}/assets/logos/plantit_green.png`}
       />

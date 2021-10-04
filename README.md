@@ -32,8 +32,12 @@ While doing this, earn points you can use to redeem rewards 🎁 🎁 ie. airtim
 
 ## Getting started 🚀
 
-Visit **Plant iT!**, [here](https://plantit.netlify.app) to get started.
+Visit **Plant iT!**, [here](https://plantit.netlify.app) to get started. Site screenshots are also available under the **Screenshots** folder.
 
 Can't wait for you to join us ...
 
 🌳 🌳 🌳 🌳 🌳
+
+## The Team
+
+Built with 💚 by **Temiloluwa Ige** (Product Manager), **Derrick Tsorme** (Product Designer), **Brian Ivan Lutaaya** (Frontend Engineer) , and **Tolulope Adekunte** (Backend Engineer).

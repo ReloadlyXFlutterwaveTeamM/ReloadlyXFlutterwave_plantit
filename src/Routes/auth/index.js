@@ -13,8 +13,8 @@ const AuthRoutes = () => {
       <div id='auth-container' className='h-100 position-relative '>
         <Link to='/' className='auth-nav-imgs d-none d-sm-block position-fixed top-0 start-0'>
           <img
-            title='Plant It!'
-            alt='Plant It! Logo'
+            title='Plant iT!'
+            alt='Plant iT! Logo'
             className='img-fluid hg-100'
             src={`${process.env.PUBLIC_URL}/assets/logos/plantit_white.png`}
           />
@@ -22,8 +22,8 @@ const AuthRoutes = () => {
 
         <Link to='/' className='auth-nav-imgs d-flex d-sm-none position-fixed top-0 start-0'>
           <img
-            title='Plant It!'
-            alt='Plant It! Logo'
+            title='Plant iT!'
+            alt='Plant iT! Logo'
             className='img-fluid hg-100'
             src={`${process.env.PUBLIC_URL}/assets/logos/plantit_green.png`}
           />

@@ -29,10 +29,10 @@ const Routes = () => {
             <img
               src={`${process.env.PUBLIC_URL}/assets/icons/32x32.png`}
               className='rounded me-2'
-              alt='Plant It!'
+              alt='Plant iT!'
             />
 
-            <strong className='me-auto'>Plant It!</strong>
+            <strong className='me-auto'>Plant iT!</strong>
           </Toast.Header>
 
           <Toast.Body>{message}</Toast.Body>

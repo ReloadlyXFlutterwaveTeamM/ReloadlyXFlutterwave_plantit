@@ -1,8 +1,8 @@
-const CLIENT_ID = process.env.REACT_APP_RELOADLY_CLIENT_ID;
-const CLIENT_SECRET = process.env.REACT_APP_RELOADLY_CLIENT_SECRET;
+const CLIENT_ID = '';
+const CLIENT_SECRET = '';
 
-const SENDER_CONTACT = process.env.REACT_APP_RELOADLY_SENDER;
-const SENDER_COUNTRY_CODE = process.env.REACT_APP_RELOADLY_COUNTRY;
+const SENDER_CONTACT = '08172599639';
+const SENDER_COUNTRY_CODE = 'NG';
 
 // const audience =
 //   process.env.NODE_ENV === 'development'

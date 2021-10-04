@@ -138,7 +138,7 @@ const Donate = ({ setRefresh }) => {
       phonenumber: user_phone,
     },
     customizations: {
-      title: 'Plant It! Donation',
+      title: 'Plant iT! Donation',
       description: `Donation for ${details[number_of_trees.name]} trees`,
       logo: 'https://plantit.netlify.app/assets/logos/plantit_green.png',
     },
